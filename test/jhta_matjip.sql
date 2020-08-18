@@ -64,6 +64,7 @@ COMMENT ON COLUMN jhta_user.grade IS '등급'
 CREATE TABLE restaurant
 (
     r_idx          NUMBER(18, 0)    NOT NULL, 
+    naver_idx      NUMBER(18, 0)    NULL, 
     r_name         VARCHAR2(20)     NULL, 
     r_category     VARCHAR2(20)     NULL, 
     price          NUMBER(18, 0)    NULL, 
@@ -105,6 +106,9 @@ COMMENT ON TABLE restaurant IS '식당'
 COMMENT ON COLUMN restaurant.r_idx IS '인덱스'
 /
 
+COMMENT ON COLUMN restaurant.naver_idx IS '네이버 번호'
+/
+
 COMMENT ON COLUMN restaurant.r_name IS '식당명'
 /
 
@@ -133,6 +137,10 @@ COMMENT ON COLUMN restaurant.site_review IS '사이트 리뷰수'
 /
 
 COMMENT ON COLUMN restaurant.main_menu IS '대표메뉴'
+/
+
+ALTER TABLE restaurant
+    ADD CONSTRAINT UC_naver_idx UNIQUE (naver_idx)
 /
 
 
