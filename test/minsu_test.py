@@ -8,8 +8,22 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+# NAVER_IDX = []
+# R_NAME = []
+# R_CATEGORY = []
+# PRICE = []
+# IMAGE_URL = []
+# DISTANCE = []
+# SCORE = []
+# SITE_SCORE = []
+# REVIEW = []
+# SITE_REVIEW = []
+# MAIN_MENU = []
+dict_list = []
 
-url = "https://map.naver.com/v5/search/%EC%A2%85%EB%A1%9C3%EA%B0%80%2B%EB%A7%9B%EC%A7%91?c=14136582.4684663,4518899.7206992,17,0,0,0,dh"
+url_place = "https://store.naver.com/restaurants/detail?entry=pll&id="
+
+url = "https://store.naver.com/restaurants/list?entry=pll&filterId=r09110133&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%EB%A7%9B%EC%A7%91&sessionid=%2FQDp24r%2FMXU9PW%2Fnrrt2fZQk"
 browser = webdriver.Chrome("E:\dev\python_workspace\chromedriver.exe")
 browser.get(url)
 
@@ -17,40 +31,88 @@ browser.get(url)
 browser.maximize_window()
 time.sleep(1)
 
-# A 찾아서 누르기
-i = pyautogui.locateOnScreen("e:/dev/python_workspace/img/A.png")
-pos = pyautogui.center(i) # 그림의 정중앙 좌표
-pyautogui.click(pos)
+elem = browser.find_element_by_css_selector("#container > div.placemap_area > div.list_wrapper > div > div.list_area > ul")
+# print(elem.text)
+li_list = elem.find_elements_by_css_selector('li')
 
-rest_name = browser.find_element_by_xpath('//*[@id="container"]/div[1]/shrinkable-layout/search-layout/search-entry/entry-layout/entry-place/div/div[2]/div/div[1]/div[2]/div[1]/strong/text()')
-# print(rest_name)
+cnt = 0
+for store in li_list:
+    cnt += 1
+    print(cnt,"번째 for문 실행중")
 
+    url_id = store.find_element_by_css_selector('a').get_attribute('href')
+    query_pos = url_id.find("query")
+    id_pos = url_id.find("id")
+    NAVER_IDX = url_id[id_pos+3:query_pos-1]
+    # print(bussiness_id)
+    # 리스트에 각 식당의 네이버 id 입력
+    
+    
 
-# matjipList=[]
+    IMAGE_URL = url_place + NAVER_IDX
+    res = requests.get(IMAGE_URL) # 나중에 여기는 i로 바꿔줘야함
+    res.raise_for_status()
+    # pprint(res.text)
+    # /t 이런것들 나오는 썡 코드
 
-# for i in range(100): #블로그 70000개 있음, 7000 검색해야함
-#     print(i,"번째 시행중")
-#     # 종로3가 맛집 검색시 url
-#     url ="https://search.naver.com/search.naver?date_from=&date_option=0&date_to=&dup_remove=1&nso=&post_blogurl=&post_blogurl_without=&query=%EC%A2%85%EB%A1%9C3%EA%B0%80%20%EB%A7%9B%EC%A7%91&sm=tab_pge&srchby=all&st=sim&where=post&start={}".format(i*10+1)
-#     # 주소 뒤에 숫자 1, 11, 21,... 10씩 늘어나야함
-#     # url = "https://blog.naver.com/missgyul/222032066556"
-#     res = requests.get(url)
-#     res.raise_for_status()
-#     # pprint(res.text)
-#     # # # /t 이런것들 나오는 썡 코드
+    soup = bs(res.text,'lxml')
+    # pprint(soup)
+    # /t 이런거 없애준 예쁜 코드
 
-#     soup = bs(res.text,'lxml')
-#     # pprint(soup)
-#     # # # /t 이런거 없애준 예쁜 코드
+    R_NAME = soup.find("strong",attrs={"class","name"}).text
+    # pprint(name)
+    
 
-#     r_contents = soup.find_all("dd",attrs={"class","sh_blog_passage"})
-#     # pprint(product_names)
-#     for r_content in r_contents:
-#         r2 = r_content.get_text().split()
-#         for r3 in r2:
-#             if r3[0] == "#":
-#                 if r3 in matjipList:
-#                     continue
-#                 else:
-#                     matjipList.append(r3)
-                
+    R_CATEGORY = soup.find("span",attrs={"class","category"}).text
+    # pprint(cate)
+    
+
+    price = soup.find("em",attrs={"class","price"}).text
+    price_num = price.find(",")
+    PRICE = int(price[:price_num]+"000")
+    # pprint(price)
+    
+
+    dis = soup.find("div",attrs={"class","contact_area"}).text
+    print(dis)
+    dis_dobo = dis.find("도보")
+    dis_bun  = dis.find("분")
+    DISTANCE = dis[dis_dobo+3:dis_bun+1]
+    # print(DISTANCE)
+    
+    
+    raing_area = soup.find("div",attrs={"class","raing_area"})
+    if raing_area:
+        score = raing_area.find("span",attrs={"class","score"})
+        # print(score)
+        SITE_SCORE = score.find("em",).text
+    else:
+        SITE_SCORE = 0
+    # print(score2)
+    
+
+    reviews = soup.find("div",attrs={"class","info_inner"})
+    reviews2 = reviews.find_all("a",attrs={"class","link"})
+    SITE_REVIEW = 0
+    for rev in reviews2:
+        SITE_REVIEW += int(rev.text[7:])
+    # print(cnt)    
+    
+
+    menu = soup.find("div",attrs={"class","menu_area"})
+    MAIN_MENU = menu.find("span",attrs={"class","name"}).text
+    # print(menu2)
+    
+    dict_list.append({
+        'NAVER_IDX' : NAVER_IDX,
+        'R_NAME' : R_NAME,
+        'R_CATEGORY' : R_CATEGORY,
+        'PRICE' : PRICE,
+        'IMAGE_URL' : IMAGE_URL,
+        'DISTANCE' : DISTANCE,
+        'SITE_SCORE' : SITE_SCORE,
+        'SITE_REVIEW' : SITE_REVIEW, 
+        'MAIN_MENU' : MAIN_MENU
+    })
+
+print(dict_list)
