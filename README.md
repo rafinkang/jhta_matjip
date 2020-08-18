@@ -1,10 +1,10 @@
 # jhta_matjip
 
 2조 세미프로젝트
-* **강태욱** 
-* **김민수**
-* **김기욱**
-* **서민정**
+* **강태욱** -*짱짱 조장님* - [GitHub] (https://github.com/rafinkang)
+* **김민수** - [GitHub] (https://github.com/kimsubbae113)
+* **김기욱** - [GitHub] (https://github.com/tarsonia1)
+* **서민정** - [GitHub] (https://github.com/MinjeongSuh88)
 
 
 ## Python Google 스타일 가이드
