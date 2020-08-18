@@ -28,5 +28,5 @@ class DbConn:
         self.connection.close()
         return resultList
 
-# db = DbConnect()
+# db = DbConn()
 # print(db.execute("SELECT * FROM dept"))
