@@ -18,7 +18,7 @@ class Menu(QWidget):
         self.btn1.clicked.connect(lambda: parent.route_page('restaurant'))
         self.btn2.clicked.connect(lambda: parent.route_page('cafe'))
         self.btn3.clicked.connect(lambda: parent.route_page('mart'))
-        self.btn4.clicked.connect(lambda: parent.route_page('login'))
+        self.btn4.clicked.connect(lambda: parent.route_page('party'))
 
         grid = QGridLayout()
         self.setLayout(grid)

@@ -46,10 +46,25 @@ class Register(QWidget):
     
     def regist(self):
         user_id = self.le_id.text()
+        if user_id == '': 
+            self.alert_msg("아이디를 입력해주세요.")
+            return False
         pwd = self.le_pw.text()
+        if pwd == '': 
+            self.alert_msg("비밀번호를 입력해주세요.") 
+            return False
         name = self.le_name.text()
+        if name == '': 
+            self.alert_msg("이름을 입력해주세요.")
+            return False
         birth = self.le_birth.text()
+        if birth == '': 
+            self.alert_msg("생년월일을 입력해주세요.")
+            return False
         tel = self.le_tel.text()
+        if tel == '': 
+            self.alert_msg("전화번호를 입력해주세요.")
+            return False
 
         db = DbConn()
         q1 = "select * from jhta_user where user_id = :user_id"
@@ -58,8 +73,10 @@ class Register(QWidget):
             query = "INSERT INTO JHTA_USER (user_id, pwd, name, birth, tel) VALUES (:user_id, :pwd, :name, :birth, :tel)"
             db.execute(query, {'user_id': user_id, 'pwd' : pwd, 'name' : name, 'birth' : birth, 'tel' : tel})
         else:
-            QMessageBox.question(self,
-                "Error!", "사용 할 수 없는 아이디 입니다.", QMessageBox.Yes)
+            self.alert_msg("사용 할 수 없는 아이디 입니다.")
                 
         db.disconnect()
         
+    def alert_msg(self, content):
+        QMessageBox.question(self,
+                "!!!", content, QMessageBox.Yes)
