@@ -21,12 +21,8 @@ class DbConn:
         self.connection = cx_Oracle.connect(self.user, self.password, self.host+":"+self.port+"/"+self.dbname)
 
     def execute(self, sql):
-        self.sql = sql
         cur = self.connection.cursor()
         cur.execute(sql)
         resultList = cur.fetchall()
         self.connection.close()
         return resultList
-
-# db = DbConn()
-# print(db.execute("SELECT * FROM dept"))
