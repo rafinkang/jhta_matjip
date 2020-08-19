@@ -8,6 +8,15 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+import sys
+import cx_Oracle
+
+
+
+# db = DbConn()
+
+# print(db.execute("SELECT * FROM dept"))
+
 # naver_idx = []
 # r_name = []
 # r_category = []
@@ -61,13 +70,13 @@ for j in range(15):
         url_id = store.find_element_by_css_selector('a').get_attribute('href')
         id_pos = url_id.find("id")
         query_pos = url_id.find("query")
-        naver_idx = url_id[id_pos+3:query_pos-1]
+        naver_idx = int(url_id[id_pos+3:query_pos-1])
         print(naver_idx)
         # 리스트에 각 식당의 네이버 id 입력
         
         
 
-        image_url = url_place + naver_idx
+        image_url = url_place + str(naver_idx)
         res = requests.get(image_url) # 나중에 여기는 i로 바꿔줘야함
         # res.raise_for_status()
         if res:
@@ -115,6 +124,8 @@ for j in range(15):
         dis_dobo = dis.find("도보")
         dis_bun  = dis.find("분")
         distance = dis[dis_dobo+3:dis_bun+1]
+        if distance == "":
+            distance = "0"
         print(distance)
         
         
@@ -152,6 +163,48 @@ for j in range(15):
             'main_menu' : main_menu
         })
         print(cnt,"번째 dict 어펜드")
+        sql_insert = """
+        INSERT INTO restaurant(
+            naver_idx,
+            r_name,
+            r_category,
+            price,
+            image_url,
+            distance,
+            site_score,
+            site_review, 
+            main_menu
+        ) VALUES (
+            :naver_idx,
+            :r_name,
+            :r_category,
+            :price,
+            :image_url,
+            :distance,
+            :site_score,
+            :site_review, 
+            :main_menu
+        )
+        """
+
+        connection = cx_Oracle.connect("scott", "tigertiger", "orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com"+":1521/orcl")
+        cur = connection.cursor()
+
+        cur.execute(sql_insert,naver_idx = str(naver_idx),
+        r_name = r_name,
+        r_category = r_category,
+        price = price,
+        image_url = image_url,
+        distance = distance,
+        site_score = str(site_score),
+        site_review = str(site_review),
+        main_menu = main_menu,
+        )
+        connection.commit()
+        connection.close()
+        
+        
+        
 
     page += 1
 
