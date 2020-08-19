@@ -23,12 +23,14 @@ class DbConn:
     def execute(self, sql, args=None):
         cur = self.connection.cursor()
         if args == None:
-            cur.execute(sql, args)
-        else:
             cur.execute(sql)
-            
+        else:
+            cur.execute(sql, args)
+
         resultList = cur.fetchall()
+        self.connection.commit()  
         return resultList
+            
     
     def disconnect(self):
         self.connection.close()
