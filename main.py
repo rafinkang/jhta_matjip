@@ -32,5 +32,4 @@ if __name__ == "__main__":
     
     # 첫 화면 실행
     main.route_page('login')
-
     sys.exit(app.exec_())

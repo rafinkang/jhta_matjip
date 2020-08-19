@@ -20,9 +20,15 @@ class DbConn:
         self.port = port
         self.connection = cx_Oracle.connect(self.user, self.password, self.host+":"+self.port+"/"+self.dbname)
 
-    def execute(self, sql):
+    def execute(self, sql, args=None):
         cur = self.connection.cursor()
-        cur.execute(sql)
+        if args == None:
+            cur.execute(sql, args)
+        else:
+            cur.execute(sql)
+            
         resultList = cur.fetchall()
-        self.connection.close()
         return resultList
+    
+    def disconnect(self):
+        self.connection.close()
