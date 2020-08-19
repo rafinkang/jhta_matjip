@@ -12,11 +12,6 @@ import sys
 import cx_Oracle
 
 
-
-# db = DbConn()
-
-# print(db.execute("SELECT * FROM dept"))
-
 # naver_idx = []
 # r_name = []
 # r_category = []
@@ -37,17 +32,17 @@ page = 1
 url2 = "&query=%EC%9D%B5%EC%84%A0%EB%8F%99%EB%A7%9B%EC%A7%91"
 url = url1 + str(page) + url2
 
+browser = webdriver.Chrome("E:\dev\python_workspace\chromedriver.exe")
 
 for j in range(15):
     url = url1 + str(page) + url2
 
-    browser = webdriver.Chrome("E:\dev\python_workspace\chromedriver.exe")
     browser.get(url)
 
     # 화면 최대화
     browser.maximize_window()
 
-    time.sleep(1)
+    time.sleep(10)
 
     if browser.find_element_by_css_selector("#container > div.placemap_area > div.list_wrapper > div > div.list_area > ul"):
         print("성공")
@@ -99,24 +94,24 @@ for j in range(15):
         r_category = soup.find("span",attrs={"class","category"}).text
         pprint(r_category)
         
+        menu_exist = soup.find("div",attrs={"class","menu"})
+        if menu_exist:
+            price2 = soup.find_all("em",attrs={"class","price"})
+            # print(price2)
+            for p in price2:
+                price = p.get_text()
+                # print("여기 확인중")
+                if price.find(",") > 0:
+                    # print("성공")
+                    print(price)
+                    break
+                else :
+                    # print("실패")
+                    price = 0
+                    continue
+        else:
+            price=0
 
-        price2 = soup.find_all("em",attrs={"class","price"})
-        # print(price2)
-        for p in price2:
-            price = p.get_text()
-            # print("여기 확인중")
-            if price.find(",") > 0:
-                # print("성공")
-                print(price)
-                break
-            else :
-                # print("실패")
-                price = 0
-                continue
-        # price = soup.find("em",attrs={"class","price"}).text
-        # price_num = price.find(",")
-        # price = int(price[:price_num]+"000")
-        # pprint(price)
         
 
         dis = soup.find("div",attrs={"class","contact_area"}).text
@@ -146,9 +141,12 @@ for j in range(15):
             site_review += int(rev.text[7:])
         print(site_review)    
         
-
-        menu = soup.find("div",attrs={"class","menu_area"})
-        main_menu = menu.find("span",attrs={"class","name"}).text
+        menu_exist = soup.find("div",attrs={"class","menu"})
+        if menu_exist:
+            menu = soup.find("div",attrs={"class","menu_area"})
+            main_menu = menu.find("span",attrs={"class","name"}).text
+        else:
+            main_menu = 0
         print(main_menu)
         
         dict_list.append({
@@ -163,6 +161,35 @@ for j in range(15):
             'main_menu' : main_menu
         })
         print(cnt,"번째 dict 어펜드")
+
+        sql_select = """
+        SELECT naver_idx
+        FROM restaurant
+        WHERE naver_idx = 
+        """+str(naver_idx)
+
+
+        connection = cx_Oracle.connect("scott", "tigertiger", "orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com"+":1521/orcl")
+        cur = connection.cursor()
+        cur.execute(sql_select)
+        db_result = cur.fetchall()
+        db_exist = len(db_result)
+        
+        
+        sql_update = """
+        UPDATE restaurant SET 
+            naver_idx = :naver_idx,
+            r_name = :r_name,
+            r_category = :r_category,
+            price = :price,
+            image_url = :image_url,
+            distance = :distance,
+            site_score = :site_score,
+            site_review = :site_review, 
+            main_menu = :main_menu
+        WHERE naver_idx = :naver_idx2
+        """
+
         sql_insert = """
         INSERT INTO restaurant(
             naver_idx,
@@ -187,22 +214,40 @@ for j in range(15):
         )
         """
 
+
         connection = cx_Oracle.connect("scott", "tigertiger", "orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com"+":1521/orcl")
         cur = connection.cursor()
 
-        cur.execute(sql_insert,naver_idx = str(naver_idx),
-        r_name = r_name,
-        r_category = r_category,
-        price = price,
-        image_url = image_url,
-        distance = distance,
-        site_score = str(site_score),
-        site_review = str(site_review),
-        main_menu = main_menu,
-        )
+        # cur.execute(sql_question,naver_idx = str(naver_idx),r_name = r_name,r_category = r_category,price = price,image_url = image_url,distance = distance,site_score = str(site_score),site_review = str(site_review),main_menu = main_menu,naver_idx2 = naver_idx)
+        if db_exist:
+            cur.execute(sql_update,
+            naver_idx = str(naver_idx),
+            r_name = r_name,
+            r_category = r_category,
+            price = price,
+            image_url = image_url,
+            distance = distance,
+            site_score = str(site_score),
+            site_review = str(site_review),
+            main_menu = main_menu,
+            naver_idx2 = naver_idx
+            )
+        else:
+            cur.execute(sql_insert,
+            naver_idx = str(naver_idx),
+            r_name = r_name,
+            r_category = r_category,
+            price = price,
+            image_url = image_url,
+            distance = distance,
+            site_score = str(site_score),
+            site_review = str(site_review),
+            main_menu = main_menu,
+            )
         connection.commit()
         connection.close()
         
+        time.sleep(3)
         
         
 
