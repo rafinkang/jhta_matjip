@@ -7,6 +7,7 @@ from classes.DbConn import *
 class Login(QWidget):
     def __init__(self, parent):
         super().__init__()
+        self.parent = parent
         self.initUI(parent)
         
     def initUI(self, parent):
@@ -20,7 +21,8 @@ class Login(QWidget):
         self.btn_register = QPushButton("회원가입", self)
         self.btn_findpw = QPushButton("ID/PW찾기", self)
 
-        self.btn_findpw.clicked.connect(lambda: parent.route_page('menu'))
+        self.btn_login.clicked.connect(self.login)
+        self.btn_findpw.clicked.connect(lambda: parent.route_page('find_id'))
         self.btn_register.clicked.connect(lambda: parent.route_page('register'))
 
         grid = QGridLayout()
@@ -33,3 +35,17 @@ class Login(QWidget):
         grid.addWidget(self.btn_login, 2, 0, 1, 2)
         grid.addWidget(self.btn_register, 3, 0)
         grid.addWidget(self.btn_findpw, 3, 1)
+        
+    def login(self):
+        user_id = self.le_id.text()
+        user_pw = self.le_pw.text()
+        
+        query = "select * from jhta_user where user_id = :user_id and pwd = :pwd"
+        db = DbConn()
+        result = db.execute(query, {'user_id' : user_id, 'pwd' : user_pw})
+        if len(result) == 0 :
+            QMessageBox.question(self,
+                "Error!", "아이디 또는 패스워드를 확인해주세요.", QMessageBox.Yes)
+        else:
+            self.parent.user_id = user_id
+            self.parent.route_page('menu')
