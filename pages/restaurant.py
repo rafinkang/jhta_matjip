@@ -8,30 +8,17 @@ import sys
 import cx_Oracle
 
 import math
-
+import random
+import pyautogui
 
 class Restaurant(QWidget):
     def __init__(self, parent):
         super().__init__()
-        self.list_num = 17
+        self.list_num = 300
         self.list_count = 1
         self.db_count = 0
         self.initUI(parent)
         
-
-    def count_restaurant(self):
-        sql_count_restaurant = """
-        SELECT naver_idx
-        FROM restaurant
-        """
-
-        db = DbConn()
-        db_count_restaurant = db.execute(sql_count_restaurant)
-        self.db_count = len(db_count_restaurant)
-        self.page_num = math.ceil(self.db_count/10)
-        print(self.db_count,self.page_num) 
-        
-                
 
     def page(self):
         
@@ -49,16 +36,26 @@ class Restaurant(QWidget):
     def initUI(self, parent):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-        self.btn_addmore = QPushButton("더보기", self)
+        self.btn_random_restaurant = QPushButton("랜덤", self)
         self.btn_back = QPushButton("뒤로가기", self)
-        self.layout.addWidget(self.btn_addmore, 0, 0)
+        self.layout.addWidget(self.btn_random_restaurant, 0 ,0)
         self.layout.addWidget(self.btn_back, 0, 1)
+
+        # self.count_restaurant_table()
         self.create_restaurant_table()
         
+        self.btn_random_restaurant.clicked.connect(self.random_restaurant)
         self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
-        self.btn_addmore.clicked.connect(self.addmore_restaurant)
+        
+    def random_restaurant(self):
+        rand = random.randint(1,self.list_num)
+        rand_restaurant = self.db_result_restaurant[rand][0]
+        rand_restaurant_cate = self.db_result_restaurant[rand][1]
+        rand_restaurant_menu = self.db_result_restaurant[rand][8]
+        pyautogui.alert("오늘은 '{}' 가보는건 어떨까요?\n{} 가게 입니다.\n{} !!!".format(rand_restaurant,rand_restaurant_cate,rand_restaurant_menu))
 
-    def addmore_restaurant(self):
+
+    def create_restaurant_table(self):
         
         sql_select_restaurant = """
         SELECT 
@@ -72,21 +69,14 @@ class Restaurant(QWidget):
             SITE_REVIEW,
             MAIN_MENU
         FROM restaurant
-        WHERE rownum BETWEEN {} and  {}
-        """.format(self.list_num*self.list_count, self.list_num*(self.list_count+1))
-        print(sql_select_restaurant)
-        self.list_count += 1
+        WHERE R_CATEGORY not like '%카페%'
+        """
 
         db = DbConn()
-        db_result_restaurant = db.execute(sql_select_restaurant)
-        print(db_result_restaurant)
-        db_exist = len(db_result_restaurant)
+        self.db_result_restaurant = db.execute(sql_select_restaurant)
+        # print(self.db_result_restaurant)
+        self.list_num = len(self.db_result_restaurant)
 
-
-
-
-
-    def create_restaurant_table(self):
         self.table = QTableWidget()        
         
         # self.table.setSelectionBehavior(QTableView.SelectRows) # multiple row 선택 가능 
@@ -98,28 +88,9 @@ class Restaurant(QWidget):
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["식당", "카테고리", "가격", "거리", "평점", "네이버 점수", "리뷰수", "네이버 리뷰수", "대표메뉴"]) 
         
-        sql_select_restaurant = """
-        SELECT 
-            R_NAME,
-            R_CATEGORY,
-            PRICE,
-            DISTANCE,
-            SCORE,
-            SITE_SCORE,
-            REVIEW,
-            SITE_REVIEW,
-            MAIN_MENU
-        FROM restaurant
-        WHERE rownum <= {}
-        """.format(self.list_num)
-
-        db = DbConn()
-        db_result_restaurant = db.execute(sql_select_restaurant)
-        # print(db_result_restaurant)
-        db_exist = len(db_result_restaurant)
 
         row_num = 0
-        for row in db_result_restaurant:
+        for row in self.db_result_restaurant:
             col_num = 0
             for data in row:
                 self.table.setItem(row_num, col_num, QTableWidgetItem(str(data))) 
