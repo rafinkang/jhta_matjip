@@ -7,6 +7,7 @@ from classes.DbConn import *
 class Register(QWidget):
     def __init__(self, parent):
         super().__init__()
+        self.parent = parent
         self.initUI(parent)
         
     def initUI(self, parent):
@@ -72,6 +73,8 @@ class Register(QWidget):
         if len(res) == 0 :
             query = "INSERT INTO JHTA_USER (user_id, pwd, name, birth, tel) VALUES (:user_id, :pwd, :name, :birth, :tel)"
             db.execute(query, {'user_id': user_id, 'pwd' : pwd, 'name' : name, 'birth' : birth, 'tel' : tel})
+            self.alert_msg("회원가입이 완료되었습니다.")
+            self.parent.route_page('login')
         else:
             self.alert_msg("사용 할 수 없는 아이디 입니다.")
                 
