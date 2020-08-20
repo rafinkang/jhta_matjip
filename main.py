@@ -37,5 +37,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('restaurant')
+    main.route_page('login')
     sys.exit(app.exec_())
