@@ -11,22 +11,9 @@ from selenium.webdriver.common.keys import Keys
 import sys
 import cx_Oracle
 
-
-# naver_idx = []
-# r_name = []
-# r_category = []
-# price = []
-# image_url = []
-# distance = []
-# SCORE = []
-# site_score = []
-# REVIEW = []
-# site_review = []
-# main_menu = []
-dict_list = []
+# dict_list = []
 cnt = 0
 url_place = "https://store.naver.com/restaurants/detail?entry=pll&id="
-# url = "https://store.naver.com/restaurants/list?entry=pll&filterId=r09110133&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%EB%A7%9B%EC%A7%91&sessionid=%2FQDp24r%2FMXU9PW%2Fnrrt2fZQk"
 url1 = "https://store.naver.com/restaurants/list?page="
 page = 1
 url2 = "&query=%EC%9D%B5%EC%84%A0%EB%8F%99%EB%A7%9B%EC%A7%91"
@@ -36,27 +23,21 @@ browser = webdriver.Chrome("E:\dev\python_workspace\chromedriver.exe")
 
 for j in range(15):
     url = url1 + str(page) + url2
-
     browser.get(url)
 
     # 화면 최대화
     browser.maximize_window()
-
     time.sleep(10)
 
     if browser.find_element_by_css_selector("#container > div.placemap_area > div.list_wrapper > div > div.list_area > ul"):
-        print("성공")
+        print("페이지에서 20개 데이터 받기 성공")
         pass
     else:
-        print("20개 실패 건너뛰기")
+        print("페이지에서 20개 데이터 받기 실패 다음 페이지로 건너뛰기")
         break
     elem = browser.find_element_by_css_selector("#container > div.placemap_area > div.list_wrapper > div > div.list_area > ul")
     # print(elem.text)
     li_list = elem.find_elements_by_css_selector('li')
-
-    # 화면 종료
-    # browser.close()
-
 
     for store in li_list:
         cnt += 1
@@ -69,10 +50,8 @@ for j in range(15):
         print(naver_idx)
         # 리스트에 각 식당의 네이버 id 입력
         
-        
-
         image_url = url_place + str(naver_idx)
-        res = requests.get(image_url) # 나중에 여기는 i로 바꿔줘야함
+        res = requests.get(image_url) 
         # res.raise_for_status()
         if res:
             print("성공")
@@ -90,7 +69,6 @@ for j in range(15):
         r_name = soup.find("strong",attrs={"class","name"}).text
         pprint(r_name)
         
-
         r_category = soup.find("span",attrs={"class","category"}).text
         pprint(r_category)
         
@@ -112,8 +90,6 @@ for j in range(15):
         else:
             price=0
 
-        
-
         dis = soup.find("div",attrs={"class","contact_area"}).text
         print(dis)
         dis_dobo = dis.find("도보")
@@ -122,7 +98,6 @@ for j in range(15):
         if distance == "":
             distance = "0"
         print(distance)
-        
         
         raing_area = soup.find("div",attrs={"class","raing_area"})
         if raing_area:
@@ -133,7 +108,6 @@ for j in range(15):
             site_score = 0
         print(site_score)
         
-
         reviews = soup.find("div",attrs={"class","info_inner"})
         reviews2 = reviews.find_all("a",attrs={"class","link"})
         site_review = 0
@@ -149,18 +123,18 @@ for j in range(15):
             main_menu = 0
         print(main_menu)
         
-        dict_list.append({
-            'naver_idx' : naver_idx,
-            'r_name' : r_name,
-            'r_category' : r_category,
-            'price' : price,
-            'image_url' : image_url,
-            'distance' : distance,
-            'site_score' : site_score,
-            'site_review' : site_review, 
-            'main_menu' : main_menu
-        })
-        print(cnt,"번째 dict 어펜드")
+        # dict_list.append({
+        #     'naver_idx' : naver_idx,
+        #     'r_name' : r_name,
+        #     'r_category' : r_category,
+        #     'price' : price,
+        #     'image_url' : image_url,
+        #     'distance' : distance,
+        #     'site_score' : site_score,
+        #     'site_review' : site_review, 
+        #     'main_menu' : main_menu
+        # })
+        # print(cnt,"번째 dict 어펜드")
 
         sql_select = """
         SELECT naver_idx
@@ -168,13 +142,11 @@ for j in range(15):
         WHERE naver_idx = 
         """+str(naver_idx)
 
-
         connection = cx_Oracle.connect("scott", "tigertiger", "orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com"+":1521/orcl")
         cur = connection.cursor()
         cur.execute(sql_select)
         db_result = cur.fetchall()
         db_exist = len(db_result)
-        
         
         sql_update = """
         UPDATE restaurant SET 
@@ -214,7 +186,6 @@ for j in range(15):
         )
         """
 
-
         connection = cx_Oracle.connect("scott", "tigertiger", "orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com"+":1521/orcl")
         cur = connection.cursor()
 
@@ -248,9 +219,6 @@ for j in range(15):
         connection.close()
         
         time.sleep(3)
-        
-        
-
     page += 1
 
-print(dict_list)
+# print(dict_list)
