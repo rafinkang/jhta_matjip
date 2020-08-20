@@ -9,8 +9,14 @@ from pages.menu import *
 from pages.register import *
 from pages.find_id import *
 from pages.party import *
+from pages.party_insert import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
+from pages.mart import *
+from pages.cafe import *
+from pages.cafe_re import *
+
+
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -31,10 +37,19 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(FindId(self))
         elif page_name == 'party':
             self.setCentralWidget(Party(self))
+        elif page_name == 'party_insert':
+            self.setCentralWidget(PartyInsert(self))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
         elif page_name == 'restaurant_reple':
             self.setCentralWidget(Restaurant_reple(self, params))
+        elif page_name == 'mart':
+            Mart(self)
+        elif page_name == 'cafe':
+            self.setCentralWidget(Cafe(self))
+        elif page_name == 'cafe_re':
+            self.setCentralWidget(CafeRe(self, params))
+        
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
 
