@@ -10,6 +10,9 @@ from pages.register import *
 from pages.find_id import *
 from pages.party import *
 from pages.restaurant import *
+from pages.mart import *
+
+
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -32,6 +35,9 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Party(self))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
+        elif page_name == 'mart':
+            Mart(self)
+        
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
 
