@@ -27,18 +27,13 @@ class Cafe(QWidget):
 
 
     def bringdata(self):
-        connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')
-        # print(connection)
-        cur = connection.cursor()
+        db = DbConn()
         sql = '''
-        select naver_idx, r_name, site_score, site_review, distance, r_category, price, review 
+        select r_idx, r_name, site_score, site_review, distance, r_category, price, review 
         from restaurant
         where r_category like '카페%'
         '''
-        cur.execute(sql)
-        rows = cur.fetchall()
-        # connection.commit()
-        connection.close()
+        rows = db.execute(sql)
         # print(rows)
         return rows
 
@@ -46,7 +41,8 @@ class Cafe(QWidget):
     def random(self):
         row = self.bringdata()
         # self.btn_random.setText(row[random.randint(0,len(row))][0])
-        QMessageBox.question(self,'결과는 두구두구두구',row[random.randint(0,len(row))][0]+'\n가즈아',QMessageBox.Yes)
+        QMessageBox.question(self,'결과는 두구두구두구',row[random.randint(0,len(row))][1]+'\n가즈아',QMessageBox.Yes)
+
 
     def maketable(self):
         self.table = QTableWidget()
@@ -66,7 +62,9 @@ class Cafe(QWidget):
                 self.table.setItem(i,j, QTableWidgetItem(str(row[i][j+1])))
             self.btn = QPushButton('댓글보기',self)
             self.table.setCellWidget(i,6,self.btn)
-            self.btn.clicked.connect(lambda: self.parent.route_page('cafe_re', row[i][0]))
-                
+            self.connect_btn(self.btn,row[i][0])    
         
+
+    def connect_btn(self,btn,idx):
+        self.btn.clicked.connect(lambda: self.parent.route_page('cafe_re', idx))
 

@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup as bs
 from pprint import pprint
 import requests
 from pathlib import Path
-from selenium import webdriver
 import re
 
 from selenium import webdriver
