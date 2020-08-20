@@ -7,6 +7,7 @@ from classes.DbConn import *
 from pages.login import *
 from pages.menu import *
 from pages.register import *
+from pages.find_id import *
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -23,8 +24,10 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Menu(self))
         elif page_name == 'register':
             self.setCentralWidget(Register(self))
-        # elif page_mane == '':
-        #     self.setCentralWidget()
+        elif page_name == 'find_id':
+            self.setCentralWidget(FindId(self))
+        # elif page_name == '':
+        #     self.setCentralWidget(Class(self))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
