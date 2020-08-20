@@ -11,21 +11,29 @@ class Party(QWidget):
         self.initUI(parent)
         
     def initUI(self, parent):
-        layout = QGridLayout()
-        self.setLayout(layout)
-        self.table = QTableWidget()
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+        self.btn_new_party = QPushButton("파티생성", self)
+        self.btn_back = QPushButton("뒤로가기", self)
+        self.layout.addWidget(self.btn_new_party, 0, 0)
+        self.layout.addWidget(self.btn_back, 0, 1)
+        self.create_table()
         
+        self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
+    
+    def create_table(self):
+        self.table = QTableWidget()        
         
         # self.table.setSelectionBehavior(QTableView.SelectRows) # multiple row 선택 가능 
         self.table.setSelectionMode(QAbstractItemView.SingleSelection) 
         
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
         self.table.setColumnCount(6) 
-        self.table.setRowCount(10) 
+        self.table.setRowCount(17) 
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["제목", "생성자", "현재인원", "모집인원", "종료시간", "버튼"]) 
         
-        for row in range(20):
+        for row in range(17):
             # cell 에 data 입력하기 
             self.table.setItem(row, 0, QTableWidgetItem("순대국 먹으러 갈 사람 모집~~~")) 
             self.table.setItem(row, 1, QTableWidgetItem("taeuk")) 
@@ -41,9 +49,4 @@ class Party(QWidget):
             self.table.setColumnWidth(2, 75) #컬럼 사이즈 설정
             self.table.setColumnWidth(3, 75) #컬럼 사이즈 설정
 
-
-        layout.addWidget(self.table)
-
-    def clicked(self, qmodelindex):
-        item = self.listwidget.currentItem()
-        print(item.text())
+        self.layout.addWidget(self.table, 1, 0, 1,2)
