@@ -19,6 +19,7 @@ class Party(QWidget):
         self.layout.addWidget(self.btn_back, 0, 1)
         self.create_table()
         
+        self.btn_new_party.clicked.connect(lambda: parent.route_page('party_insert'))
         self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
     
     def create_table(self):

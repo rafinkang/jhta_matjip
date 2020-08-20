@@ -40,12 +40,13 @@ class Login(QWidget):
         user_id = self.le_id.text()
         user_pw = self.le_pw.text()
         
-        query = "select * from jhta_user where user_id = :user_id and pwd = :pwd"
+        query = "select name from jhta_user where user_id = :user_id and pwd = :pwd"
         db = DbConn()
         result = db.execute(query, {'user_id' : user_id, 'pwd' : user_pw})
         if len(result) == 0 :
             QMessageBox.question(self,
                 "Error!", "아이디 또는 패스워드를 확인해주세요.", QMessageBox.Yes)
         else:
+            self.parent.user_name = result[0][0]
             self.parent.user_id = user_id
             self.parent.route_page('menu')
