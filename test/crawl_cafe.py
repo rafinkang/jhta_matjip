@@ -34,21 +34,31 @@ browser = webdriver.Chrome('e:/dev/python_workspace/chromedriver.exe')
 
 info = []
 # 정보 뽑아오기  
-for j in range(len(id)):
+for j in range(len(id)): 
     try:
         browser.get(url+id[j])
         time.sleep(1)
-        # for i in range(1,21):
+
         storeElem = browser.find_element_by_css_selector('#content > div:nth-child(1) > div.biz_name_area > strong')
         store = storeElem.text
         # print(store)
+
         menuElem = browser.find_element_by_css_selector('#content > div:nth-child(2) > div.bizinfo_area > div > div.list_item.list_item_menu > div > ul > li:nth-child(1) > div > div > div > span.name')
         menu = menuElem.text
         # print(menu)
+        
         priceElem = browser.find_element_by_css_selector('#content > div:nth-child(2) > div.bizinfo_area > div > div.list_item.list_item_menu > div > ul > li:nth-child(1) > div > em')       
         price = priceElem.text
+
         nreviewElem = browser.find_element_by_class_name('count')       
         nreview = nreviewElem.text
+
+        # res = requests.get(url+id[j])
+        # res.raise_for_status()
+        # soup = bs(res.text.'lxml')
+        disElem = browser.find_element_by_css_selector('#panel01 > div > div.sc_box.contact > div.contact_area > div > div > ul:nth-child(2)')
+        distance = disElem.text[5:10]
+
     except Exception as e:
         if e == 'Message: no such element: Unable to locate element: {"method":"css selector","selector":"#content > div:nth-child(2) > div.bizinfo_area > div > div.list_item.list_item_menu > div > ul > li:nth-child(1) > div > div > div > span.name"}':
             menu = ''
@@ -56,23 +66,56 @@ for j in range(len(id)):
         if e == 'Message: no such element: Unable to locate element: {"method":"css selector","selector":".count"}':
             nreview = 0
 
-    dic = dict(naver_idx=int(id[j]), r_name=store, r_category='카페', price=price, image_url='https://store.naver.com/restaurants/detail?id='+str(id[j]), distance=0, site_score=0, site_review=nreview, main_menu=menu)
-    # print(dic)
+    dic = dict(naver_idx=int(id[j]), r_name=store, r_category='카페', price=price, image_url='https://store.naver.com/restaurants/detail?id='+str(id[j]), distance=distance, site_score=0, site_review=nreview, main_menu=menu)
     info.append(dic)
+# count = 1    
 # for inf in info:    
-#     print(inf['naver_idx'],inf['r_name'],inf['r_category'],inf['price'])
+#     print(count, inf)
+#     print('------------------------------------')
+#     count += 1
 
 
-connection = cx_Oracle.connect('scott','tigertiger','orcl.c2yvx9kfplxi.ap-northeast-2.rds.amazonaws.com:1521/orcl')
-# print(connection)
+connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')
+print(connection)
 cur = connection.cursor()
-query = '''
-insert into restaurant(naver_idx, r_name, r_category, price, image_url, distance, site_score, site_review, main_menu)
-values(:naver_idx, :r_name, :r_category, :price, :image_url, :distance, :site_score, :site_review, :main_menu)
+
+
+# 조장님이 짜줌
+select_query = '''
+select * from restaurant where naver_idx = :naver_idx
+'''
+#
+update_query = '''
+UPDATE restaurant SET 
+r_name= :r_name, 
+r_category= :r_category, 
+price= :price, 
+image_url= :image_url, 
+distance= :distance, 
+site_score= :site_score, 
+site_review= :site_review, 
+main_menu= :main_menu
+WHERE naver_idx = :naver_idx
+'''
+insert_query = '''
+INSERT INTO restaurant(naver_idx, r_name, r_category, price, image_url, distance, site_score, site_review, main_menu)
+VALUES(:naver_idx, :r_name, :r_category, :price, :image_url, :distance, :site_score, :site_review, :main_menu)
 '''
 
-for inf in info:         
-    cur.execute(query,[int(inf['naver_idx']), inf['r_name'], inf['r_category'],inf['price'], inf['image_url'], inf['distance'], int(inf['site_score']), int(inf['site_review']), inf['main_menu']])
+
+# 조장님이 짜줌
+for inf in info:
+    cur.execute(select_query, {'naver_idx': inf['naver_idx']})
+    res = cur.fetchall()        # 네이버 id가 중복되면 값이 담겨있고 아니면 비어 있음
+    if len(res) > 0:
+    # update
+        print('있을 경우 :',inf['naver_idx'])
+        cur.execute(update_query, [inf['r_name'], inf['r_category'],inf['price'], inf['image_url'], inf['distance'], int(inf['site_score']), int(inf['site_review']), inf['main_menu'], int(inf['naver_idx'])])
+    else:
+    # insert
+        print('없을 경우 :',inf['naver_idx'])
+        cur.execute(insert_query, [int(inf['naver_idx']), inf['r_name'], inf['r_category'],inf['price'], inf['image_url'], inf['distance'], int(inf['site_score']), int(inf['site_review']), inf['main_menu']])
+# 
 
 connection.commit()
 connection.close()
