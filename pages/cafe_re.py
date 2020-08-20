@@ -7,33 +7,29 @@ import cx_Oracle
 from classes.DbConn import *
 
 
-class Cafe(QWidget):
-    def __init__(self, parent):
+class CafeRe(QWidget):
+    def __init__(self, parent, idx):
         super().__init__(parent)
-        self.parent = parent
-        self.initUI(parent)
+        print(idx)
+        self.initUI(parent, idx)
 
-
-    def initUI(self, parent):
+    def initUI(self, parent, idx):
+        self.idx = idx
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-        self.btn_random = QPushButton("랜덤뽑기 ㅋ", self)
-        self.btn_back = QPushButton("뒤로가기", self)
+        self.rilb = QLabel("이미지자리", self)
+        self.rnlb = QLabel('식당명', self)
         self.layout.addWidget(self.btn_random, 0, 0)
         self.layout.addWidget(self.btn_back, 0, 1)
-        self.maketable()
-        self.btn_random.clicked.connect(self.random)
-        self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
 
 
-    def bringdata(self):
-        connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')
+    def bring_re(self):
+        connection = cx_Oracle.conne,ct('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')
         # print(connection)
         cur = connection.cursor()
         sql = '''
-        select r_name, site_score, site_review, distance, r_category, price, review 
-        from restaurant
-        where r_category like '카페%'
+        select mr_idx, user_id, rep_time, score, reple
+        from menu_reple
         '''
         cur.execute(sql)
         rows = cur.fetchall()
@@ -42,11 +38,6 @@ class Cafe(QWidget):
         # print(rows)
         return rows
 
-
-    def random(self):
-        row = self.bringdata()
-        # self.btn_random.setText(row[random.randint(0,len(row))][0])
-        QMessageBox.question(self,'결과는 두구두구두구',row[random.randint(0,len(row))][0]+'\n가즈아',QMessageBox.Yes)
 
     def maketable(self):
         self.table = QTableWidget()
@@ -60,13 +51,9 @@ class Cafe(QWidget):
         self.table.setHorizontalHeaderLabels(['가게명','네이버평점','네이버리뷰수','거리','카테고리','가격','jhta리뷰'])
         # self.table.horizontalHeaderItem(0).setTextAlignment(Qt.AlignRight)
         
-        self.layout.addWidget(self.table, 1, 0, 1, 2)
         for i in range(len(row)):
             for j in range(len(row[i])):
                 self.table.setItem(i,j, QTableWidgetItem(str(row[i][j])))
-            self.btn = QPushButton('댓글보기',self)
-            self.table.setCellWidget(i,6,self.btn)
-            self.btn.clicked.connect(lambda: self.parent.route_page('cafe_re', row[i][0]))
-                
-        
+
+        self.layout.addWidget(self.table, 1, 0, 1, 2)
 

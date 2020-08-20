@@ -75,7 +75,7 @@ for j in range(len(id)):
 #     count += 1
 
 
-connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')
+connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')      # 민수씨 db접속
 print(connection)
 cur = connection.cursor()
 
@@ -109,14 +109,12 @@ for inf in info:
     res = cur.fetchall()        # 네이버 id가 중복되면 값이 담겨있고 아니면 비어 있음
     if len(res) > 0:
     # update
-        print('있을 경우 :',inf['naver_idx'])
         cur.execute(update_query, [inf['r_name'], inf['r_category'],inf['price'], inf['image_url'], inf['distance'], int(inf['site_score']), int(inf['site_review']), inf['main_menu'], int(inf['naver_idx'])])
+        # where문에 있는 변수도 매개변수 순서에 포함시켜야 함)
     else:
     # insert
-        print('없을 경우 :',inf['naver_idx'])
         cur.execute(insert_query, [int(inf['naver_idx']), inf['r_name'], inf['r_category'],inf['price'], inf['image_url'], inf['distance'], int(inf['site_score']), int(inf['site_review']), inf['main_menu']])
-# 
-
+#
 connection.commit()
 connection.close()
 

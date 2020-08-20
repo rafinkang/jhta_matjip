@@ -11,6 +11,7 @@ from pages.find_id import *
 from pages.party import *
 from pages.restaurant import *
 from pages.cafe import *
+from pages.cafe_re import *
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -20,7 +21,7 @@ class JhtaMatjip(QMainWindow):
         self.show()
         
         
-    def route_page(self, page_name):
+    def route_page(self, page_name, param = None):
         if page_name == 'login':
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
@@ -35,6 +36,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Restaurant(self))
         elif page_name == 'cafe':
             self.setCentralWidget(Cafe(self))
+        elif page_name == 'cafe_re':
+            self.setCentralWidget(CafeRe(self, param))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
