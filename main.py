@@ -8,6 +8,7 @@ from pages.login import *
 from pages.menu import *
 from pages.register import *
 from pages.find_id import *
+from pages.party import *
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -26,6 +27,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Register(self))
         elif page_name == 'find_id':
             self.setCentralWidget(FindId(self))
+        elif page_name == 'party':
+            self.setCentralWidget(Party(self))
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
 
