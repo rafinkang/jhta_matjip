@@ -21,7 +21,7 @@ class JhtaMatjip(QMainWindow):
         self.show()
         
         
-    def route_page(self, page_name, param = None):
+    def route_page(self, page_name, params = None):
         if page_name == 'login':
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
@@ -37,12 +37,12 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'cafe':
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
-            self.setCentralWidget(CafeRe(self, param))
+            self.setCentralWidget(CafeRe(self, params))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('menu')
+    main.route_page('login')
     sys.exit(app.exec_())

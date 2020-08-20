@@ -31,7 +31,7 @@ class Cafe(QWidget):
         # print(connection)
         cur = connection.cursor()
         sql = '''
-        select r_name, site_score, site_review, distance, r_category, price, review 
+        select naver_idx, r_name, site_score, site_review, distance, r_category, price, review 
         from restaurant
         where r_category like '카페%'
         '''
@@ -62,8 +62,8 @@ class Cafe(QWidget):
         
         self.layout.addWidget(self.table, 1, 0, 1, 2)
         for i in range(len(row)):
-            for j in range(len(row[i])):
-                self.table.setItem(i,j, QTableWidgetItem(str(row[i][j])))
+            for j in range(len(row[i])-1):
+                self.table.setItem(i,j, QTableWidgetItem(str(row[i][j+1])))
             self.btn = QPushButton('댓글보기',self)
             self.table.setCellWidget(i,6,self.btn)
             self.btn.clicked.connect(lambda: self.parent.route_page('cafe_re', row[i][0]))
