@@ -10,6 +10,7 @@ from pages.register import *
 from pages.find_id import *
 from pages.party import *
 from pages.restaurant import *
+from pages.restaurant_reple import *
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -19,7 +20,7 @@ class JhtaMatjip(QMainWindow):
         self.show()
         
         
-    def route_page(self, page_name):
+    def route_page(self, page_name, params = None):
         if page_name == 'login':
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
@@ -32,6 +33,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Party(self))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
+        elif page_name == 'restaurant_reple':
+            self.setCentralWidget(Restaurant_reple(self, params))
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
 
@@ -40,5 +43,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('restaurant')
+    main.route_page('login')
     sys.exit(app.exec_())

@@ -14,24 +14,14 @@ import pyautogui
 class Restaurant(QWidget):
     def __init__(self, parent):
         super().__init__()
+        self.parent = parent
         self.list_num = 300
         self.list_count = 1
         self.db_count = 0
+        self.btn_restaurant_reple = []
         self.initUI(parent)
         
 
-    def page(self):
-        
-        self.label_page = []
-        cnt_row = 0
-        cnt_col = 0
-        for i in range(self.page_num):
-            temp = QPushButton(str(i+1), self)
-            self.label_page.append(temp)
-            self.grid.addWidget(temp, 10, cnt_col)
-            cnt_col += 1
-            # print("실행중")
-            temp.clicked.connect(lambda: print("임시{}".format(str(i))))
 
     def initUI(self, parent):
         self.layout = QGridLayout()
@@ -41,11 +31,21 @@ class Restaurant(QWidget):
         self.layout.addWidget(self.btn_random_restaurant, 0 ,0)
         self.layout.addWidget(self.btn_back, 0, 1)
 
-        # self.count_restaurant_table()
         self.create_restaurant_table()
         
         self.btn_random_restaurant.clicked.connect(self.random_restaurant)
         self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
+        # for i in range(len(self.btn_restaurant_reple)):
+        #     # self.btn_restaurant_reple[i].clicked.connect(lambda: parent.route_page('restaurant_reple', self.restaurant_idx[i]))
+        #     self.btn_restaurant_reple[i].clicked.connect(lambda: print(self.restaurant_idx[i],i,"번째것 클릭되었습니다."))
+        for btn, index in self.btn_restaurant_reple:
+            # print(btn, index)
+            self.connect_btn(btn, index)
+            
+
+        # print(self.restaurant_idx)
+    def connect_btn(self, btn, index):
+        btn.clicked.connect(lambda: self.parent.route_page('restaurant_reple',index))
         
     def random_restaurant(self):
         rand = random.randint(1,self.list_num)
@@ -56,7 +56,8 @@ class Restaurant(QWidget):
 
 
     def create_restaurant_table(self):
-        
+        self.restaurant_idx = []
+
         sql_select_restaurant = """
         SELECT 
             R_NAME,
@@ -67,7 +68,8 @@ class Restaurant(QWidget):
             SITE_SCORE,
             REVIEW,
             SITE_REVIEW,
-            MAIN_MENU
+            MAIN_MENU,
+            R_IDX
         FROM restaurant
         WHERE R_CATEGORY not like '%카페%'
         """
@@ -83,19 +85,29 @@ class Restaurant(QWidget):
         self.table.setSelectionMode(QAbstractItemView.SingleSelection) 
         
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
-        self.table.setColumnCount(9) 
+        self.table.setColumnCount(10) 
         self.table.setRowCount(self.list_num) 
         # column header 명 설정. 
-        self.table.setHorizontalHeaderLabels(["식당", "카테고리", "가격", "거리", "평점", "네이버 점수", "리뷰수", "네이버 리뷰수", "대표메뉴"]) 
+        self.table.setHorizontalHeaderLabels(["식당", "카테고리", "가격", "거리", "평점", "네이버 점수", "리뷰수", "네이버 리뷰수", "대표메뉴", "리뷰확인"]) 
         
 
         row_num = 0
         for row in self.db_result_restaurant:
             col_num = 0
             for data in row:
-                self.table.setItem(row_num, col_num, QTableWidgetItem(str(data))) 
+                if col_num == 9:
+                    # 글씨 쓰는게 아니라 버튼만 설치
+                    item_widget = QPushButton("리뷰확인") 
+                    self.btn_restaurant_reple.append([item_widget, data])
+                    self.table.setCellWidget(row_num, col_num, item_widget) 
+                    self.restaurant_idx.append(data)
+                else:
+                    self.table.setItem(row_num, col_num, QTableWidgetItem(str(data))) 
+                    
                 col_num += 1
             row_num += 1
+        
+
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers) # edit 금지 모드 
         self.table.setColumnWidth(2, 70) #컬럼 사이즈 설정
         self.table.setColumnWidth(3, 50) #컬럼 사이즈 설정
@@ -103,6 +115,7 @@ class Restaurant(QWidget):
         self.table.setColumnWidth(5, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(6, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(7, 50) #컬럼 사이즈 설정
-        self.table.setColumnWidth(8, 200) #컬럼 사이즈 설정
+        self.table.setColumnWidth(8, 150) #컬럼 사이즈 설정
+        self.table.setColumnWidth(9, 60) #컬럼 사이즈 설정
         
         self.layout.addWidget(self.table, 1, 0, 1,2)
