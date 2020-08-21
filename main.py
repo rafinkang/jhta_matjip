@@ -53,8 +53,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
             self.setCentralWidget(CafeRe(self, params))
-        elif page_name == 'cafe_web_view':
-            self.cwv = self.CafeWebView(self)
+        # elif page_name == 'cafe_web_view':
+        #     self.cwv = self.CafeWebView(self)
         
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
@@ -65,5 +65,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('restaurant')
+    main.route_page('menu')
     sys.exit(app.exec_())

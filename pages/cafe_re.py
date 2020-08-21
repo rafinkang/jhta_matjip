@@ -31,7 +31,7 @@ class CafeRe(QWidget):
         self.layout.addWidget(self.rnlb, 1, 0)
         self.layout.addWidget(self.btn_site, 1, 1)
         print(self.data[1])
-        self.btn_site.clicked.connect(lambda: parent.route_page('cafe_web_view', self.data[1]))
+        self.btn_site.clicked.connect(lambda: self.new_window(self.data[1]))
         self.maketable(idx)
 
 
@@ -74,3 +74,29 @@ class CafeRe(QWidget):
                 self.table.setItem(i,j, QTableWidgetItem(str(row[i][j])))
 
         self.layout.addWidget(self.table, 2, 0, 1, 2)
+
+
+    def new_window(self, url):        # 버튼 클릭하면 새창 띄우는 이벤트 핸들러
+        self.nw = CafeWebView(self, url)         # 새로운 윈도우 객체
+        self.nw.show()
+
+
+class CafeWebView(QMainWindow):
+    def __init__(self, parent, url):
+        super().__init__(parent)
+        self.setCentralWidget(Site(self, url))
+        self.setWindowTitle("QWebEngineView")
+        self.show()
+
+class Site(QWidget):
+    def __init__(self, parent, url):
+        super().__init__(parent)
+        self.initUI(parent, url)
+
+
+    def initUI(self, parent, url):
+        self.layout = QBoxLayout(QBoxLayout.LeftToRight, self)
+        self.setLayout(self.layout)
+        web = QWebEngineView()
+        web.setUrl(QUrl(url))
+        self.layout.addWidget(web)
