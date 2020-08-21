@@ -4,6 +4,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from classes.DbConn import *
 
+import time
+
+import pyautogui
 
 class Restaurant_reple(QWidget):
     def __init__(self, parent, params):
@@ -111,17 +114,62 @@ class Restaurant_reple(QWidget):
 
         for i in range(11):
             self.combobox_score.addItem(str(5-i*0.5)+"점")
-        
-        
-
-        # self.btn_new_party = QPushButton("파티생성", self)
+                
         self.btn_back = QPushButton("뒤로가기", self)
-        # self.layout.addWidget(self.btn_new_party, 0, 0)
+        self.btn_newreple = QPushButton("댓글달기", self)
+        
         self.layout.addWidget(self.btn_back, 0, 9, 2, 1)
+        self.layout.addWidget(self.btn_newreple, 2, 9, 1, 1)
         self.create_table()
         
         self.btn_back.clicked.connect(lambda: parent.route_page('restaurant'))
+        self.btn_newreple.clicked.connect(self.new_reple)
     
+    def new_reple(self):
+        text = self.lineedit_reple.text()
+        if len(text) == 0:
+            pyautogui.alert("뭘 먹었나요? 맛은 어땠어요? 댓글을 달아주세요~")
+        else:
+            score = float(self.combobox_score.currentText()[:3])
+            print(score,type(score), text, "라고 댓글생성함")
+            self.lineedit_reple.setText("")
+
+            sql_reple_insert = """
+            INSERT INTO restaurant_reple(
+                r_idx,
+                user_id,
+                reple,
+                score,
+                rep_time
+
+
+            ) VALUES (
+                :r_idx,
+                :user_id,
+                :reple,
+                :score,
+                sysdate
+            )
+            """
+            
+            rep_time = time.localtime()
+
+            db = DbConn()
+            db.execute(sql_reple_insert,
+                { 'r_idx': self.params,
+                'user_id' : self.parent.user_id,
+                'reple' : text,
+                'score' : score,
+                }
+            )
+
+            self.parent.route_page('restaurant_reple',self.params)
+
+
+
+
+
+
     def create_table(self):
         self.table = QTableWidget()        
         

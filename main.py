@@ -12,7 +12,7 @@ from pages.party import *
 from pages.party_insert import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
-from pages.mart import *
+# from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
 
@@ -43,8 +43,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Restaurant(self))
         elif page_name == 'restaurant_reple':
             self.setCentralWidget(Restaurant_reple(self, params))
-        elif page_name == 'mart':
-            Mart(self)
+        # elif page_name == 'mart':
+        #     Mart(self)
         elif page_name == 'cafe':
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
