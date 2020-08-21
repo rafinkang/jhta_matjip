@@ -5,7 +5,7 @@ from PyQt5.QtGui import *
 import random
 import cx_Oracle
 from classes.DbConn import *
-from selenium import webdriver
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 
 class CafeRe(QWidget):
@@ -22,21 +22,21 @@ class CafeRe(QWidget):
         self.setLayout(self.layout)
         self.btn_back = QPushButton("뒤로가기", self)
         self.layout.addWidget(self.btn_back, 0, 1)
+        self.btn_back.clicked.connect(lambda: parent.route_page('cafe'))
 
         self.rnlb = QLabel(self.bring_info(self.idx)[0][0], self)       # 리스트 0번째 튜플의 0번째 것
         self.btn_site = QPushButton("사이트 바로 가기", self)
         self.layout.addWidget(self.rnlb, 1, 0)
         self.layout.addWidget(self.btn_site, 1, 1)
+        # self.btn_site.clicked.connect(self.go_site(idx))
 
-        self.btn_back.clicked.connect(lambda: parent.route_page('cafe'))
-        self.btn_site.clicked.connect(self.go_site)
         self.maketable(idx)
 
 
-    def go_site(idx):
-        url = 'https://store.naver.com/restaurants/detail?entry=pll&id='+str(idx)
-        browser = webdriver.Chrome('e:/dev/python_workspace/chromedriver.exe')
+    def go_site(self,idx):
+        url = self.bring_info(idx)[0][1]
         print(url)
+        site = Form(url)
 
 
     def bring_info(self, idx):
@@ -46,7 +46,7 @@ class CafeRe(QWidget):
         from restaurant
         where r_idx ='''+str(idx)
         rows = db.execute(sql)
-        # print(rows)     # [('대학로수제모찌', 'https://store.naver.com/restaurants/detail?id=1205920548')] -> 리스트 안에 튜플 형식 1개 값이 담겨있음
+        # print(rows[0][1])     # [('대학로수제모찌', 'https://store.naver.com/restaurants/detail?id=1205920548')] -> 리스트 안에 튜플 형식 1개 값이 담겨있음
         return rows
 
 
@@ -79,3 +79,17 @@ class CafeRe(QWidget):
 
         self.layout.addWidget(self.table, 2, 0, 1, 2)
 
+
+# class Form(QWidget):
+#     def __init__(self, url):
+#         QWidget.__init__(self, flags=Qt.Widget)
+#         self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
+#         self.setLayout(self.form_layout)
+#         self.init_widget(url)
+
+#     def init_widget(self,url):
+#         self.setWindowTitle("QWebEngineView")
+#         # QWebEngineView 를 이용하여 웹 페이지를 표출
+#         web = QWebEngineView()
+#         web.setUrl(QUrl(url))
+#         self.form_layout.addWidget(web)
