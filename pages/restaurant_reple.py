@@ -4,6 +4,11 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from classes.DbConn import *
 
+import time
+
+import pyautogui
+
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 class Restaurant_reple(QWidget):
     def __init__(self, parent, params):
@@ -109,19 +114,108 @@ class Restaurant_reple(QWidget):
         self.layout.addWidget(self.combobox_score, 2, 0, 1, 1)
         self.layout.addWidget(self.lineedit_reple, 2, 1, 1, 8)
 
-        for i in range(11):
-            self.combobox_score.addItem(str(5-i*0.5)+"점")
-        
+        # 위젯 만들어 넣기 그림
+        self.widget_img = Image_webview(self,self.params)
+        self.layout.addWidget(self.widget_img, 3, 0, 1, 10)
         
 
-        # self.btn_new_party = QPushButton("파티생성", self)
+        for i in range(11):
+            self.combobox_score.addItem(str(5-i*0.5)+"점")
+                
         self.btn_back = QPushButton("뒤로가기", self)
-        # self.layout.addWidget(self.btn_new_party, 0, 0)
-        self.layout.addWidget(self.btn_back, 0, 9, 2, 1)
+        self.btn_webview = QPushButton("사이트가기", self)
+        self.btn_newreple = QPushButton("댓글달기", self)
+        
+        self.layout.addWidget(self.btn_back, 0, 9, 1, 1)
+        self.layout.addWidget(self.btn_webview, 1, 9, 1, 1)
+        self.layout.addWidget(self.btn_newreple, 2, 9, 1, 1)
         self.create_table()
         
         self.btn_back.clicked.connect(lambda: parent.route_page('restaurant'))
+        self.btn_webview.clicked.connect(self.newwindow)
+        self.btn_newreple.clicked.connect(self.new_reple)
     
+    def new_reple(self):
+        text = self.lineedit_reple.text()
+        if len(text) == 0:
+            pyautogui.alert("뭘 먹었나요? 맛은 어땠어요? 댓글을 달아주세요~")
+        else:
+            score = float(self.combobox_score.currentText()[:3])
+            print(score,type(score), text, "라고 댓글생성함")
+            self.lineedit_reple.setText("")
+
+            sql_reple_insert = """
+            INSERT INTO restaurant_reple(
+                r_idx,
+                user_id,
+                reple,
+                score,
+                rep_time
+
+
+            ) VALUES (
+                :r_idx,
+                :user_id,
+                :reple,
+                :score,
+                sysdate
+            )
+            """
+            
+            rep_time = time.localtime()
+
+            db = DbConn()
+            db.execute(sql_reple_insert,
+                { 'r_idx': self.params,
+                'user_id' : self.parent.user_id,
+                'reple' : text,
+                'score' : score,
+                }
+            )
+
+            self.refresh_user_score()
+            self.parent.route_page('restaurant_reple',self.params)
+
+    def refresh_user_score(self):
+        sql_select_score = """
+            SELECT 
+                score
+            FROM
+                restaurant_reple
+            WHERE
+                r_idx = :r_idx
+            """
+        
+        db = DbConn()
+        self.score_list = db.execute(sql_select_score,
+            { 'r_idx': self.params
+            }
+        )
+        self.review_num = len(self.score_list)
+        total_score = 0
+        for score in self.score_list:
+            total_score += score[0]
+        avg_score = round(total_score/self.review_num, 2)
+        print(avg_score)
+
+        # db에 입력하기
+        sql_update_score = """
+        UPDATE restaurant SET
+            score = :score,
+            review = :review
+        WHERE r_idx = :r_idx
+        """
+
+        db = DbConn()
+        self.score_list = db.execute(sql_update_score,
+            { 'score': avg_score,
+            'review': self.review_num,
+            'r_idx': self.params
+            }
+        )
+
+
+
     def create_table(self):
         self.table = QTableWidget()        
         
@@ -150,4 +244,101 @@ class Restaurant_reple(QWidget):
         self.table.setColumnWidth(3, 450) #컬럼 사이즈 설정
         
 
-        self.layout.addWidget(self.table, 3, 0, 1,10)
+        self.layout.addWidget(self.table, 4, 0, 1,10)
+
+
+    def newwindow(self):
+        print("사이트가기 버튼 눌림")
+        # NewWindow 매개변수가 있는 초기화 함수 호출
+        self.nw = NewWindow(self,self.params) 
+        self.nw.show()
+
+
+class NewWindow(QMainWindow):
+    def __init__(self, parent, params):
+        super().__init__(parent)
+        self.setGeometry(50,50,1200,800)
+        self.setCentralWidget(Restaurant_webview(self,params))
+
+class Restaurant_webview(QWidget):
+    def __init__(self, parent, params):
+        super().__init__()
+        self.parent = parent
+        self.params = params
+        print(params)
+        self.initUI(parent)
+
+        self.select_restaurant_url()
+
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
+        self.setLayout(self.form_layout)
+        self.init_widget()
+        
+    def init_widget(self):
+        self.setWindowTitle("QWebEngineView")
+        # QWebEngineView 를 이용하여 웹 페이지를 표출
+        web = QWebEngineView()
+        web.setUrl(QUrl(self.url))
+        self.form_layout.addWidget(web)
+
+    def select_restaurant_url(self):
+        # self.params 를 가지고 셀렉트 돌려서 식당정보 가져오기
+        
+        sql_select_restaurant_url = """
+        SELECT 
+            IMAGE_URL
+        FROM restaurant
+        WHERE r_idx = {}
+        """.format(self.params)
+            
+        db = DbConn()
+        self.url = db.execute(sql_select_restaurant_url)[0][0]
+        print(self.url)
+
+
+    def initUI(self, parent):
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+
+
+class Image_webview(QWidget):
+    def __init__(self, parent, params):
+        super().__init__()
+        self.parent = parent
+        self.params = params
+        print(params)
+        self.initUI(parent)
+
+        self.select_restaurant_url()
+
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
+        self.setLayout(self.form_layout)
+        self.init_widget()
+        
+    def init_widget(self):
+        self.setWindowTitle("QWebEngineView")
+        # QWebEngineView 를 이용하여 웹 페이지를 표출
+        web = QWebEngineView()
+        web.setUrl(QUrl(self.url))
+        self.form_layout.addWidget(web)
+
+    def select_restaurant_url(self):
+        # self.params 를 가지고 셀렉트 돌려서 식당정보 가져오기
+        
+        sql_select_restaurant_url = """
+        SELECT 
+            IMAGE_URL
+        FROM restaurant
+        WHERE r_idx = {}
+        """.format(self.params)
+            
+        db = DbConn()
+        self.url = db.execute(sql_select_restaurant_url)[0][0]
+        print(self.url)
+
+
+    def initUI(self, parent):
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)

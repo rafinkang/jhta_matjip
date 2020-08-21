@@ -34,8 +34,10 @@ class PartyInsert(QWidget):
 
         grid.addWidget(self.lb_title, 0, 0)
         grid.addWidget(self.le_title, 0, 1)
+        
         grid.addWidget(self.lb_max_member, 1, 0)
         grid.addWidget(self.le_max_member, 1, 1)
+        
         grid.addWidget(self.lb_end_time, 2, 0)
         grid.addWidget(self.le_end_time, 2, 1)
         
@@ -47,7 +49,7 @@ class PartyInsert(QWidget):
         max_member = self.le_max_member.text()
         end_time = self.le_end_time.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         user_id = self.parent.user_id
-        user_name = self.parent.user_name + "!" 
+        user_name = self.parent.user_name
         # print(title, max_member, end_time)
 
         db = DbConn()
