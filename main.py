@@ -10,6 +10,7 @@ from pages.register import *
 from pages.find_id import *
 from pages.party import *
 from pages.party_insert import *
+from pages.party_detail import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
 # from pages.mart import *
@@ -41,6 +42,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Party(self))
         elif page_name == 'party_insert':
             self.setCentralWidget(PartyInsert(self))
+        elif page_name == 'party_detail':
+            self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
         elif page_name == 'restaurant_reple':

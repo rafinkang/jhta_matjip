@@ -47,7 +47,7 @@ class PartyInsert(QWidget):
         max_member = self.le_max_member.text()
         end_time = self.le_end_time.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         user_id = self.parent.user_id
-        user_name = self.parent.user_name + "!" 
+        user_name = self.parent.user_name
         # print(title, max_member, end_time)
 
         db = DbConn()
