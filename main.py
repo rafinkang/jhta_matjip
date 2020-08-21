@@ -13,11 +13,12 @@ from pages.party_insert import *
 from pages.party_detail import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
-from pages.restaurant_webview import *
 # from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
 
+# pip install PyQtWebEngine
+# 실행해서 설치해주세요
 
 
 class JhtaMatjip(QMainWindow):
