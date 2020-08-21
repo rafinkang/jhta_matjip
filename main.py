@@ -10,14 +10,16 @@ from pages.register import *
 from pages.find_id import *
 from pages.party import *
 from pages.party_insert import *
+from pages.party_detail import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
-from pages.restaurant_webview import *
 # from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
 from pages.cafe_web_view import *
 
+# pip install PyQtWebEngine
+# 실행해서 설치해주세요
 
 
 class JhtaMatjip(QMainWindow):
@@ -41,6 +43,8 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Party(self))
         elif page_name == 'party_insert':
             self.setCentralWidget(PartyInsert(self))
+        elif page_name == 'party_detail':
+            self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
         # elif page_name == 'mart':
@@ -65,5 +69,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('menu')
+    main.route_page('login')
     sys.exit(app.exec_())
