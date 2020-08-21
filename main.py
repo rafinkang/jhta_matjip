@@ -13,6 +13,7 @@ from pages.restaurant import *
 # from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
+from pages.cafe_web_view import *
 
 class JhtaMatjip(QMainWindow):
     def __init__(self):
@@ -41,6 +42,9 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
             self.setCentralWidget(CafeRe(self, params))
+        elif page_name == 'cafe_web_view':
+            self.cwv = self.CafeWebView(self)
+
 
 if __name__ == "__main__":  
     app = QApplication(sys.argv)

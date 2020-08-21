@@ -23,20 +23,16 @@ class CafeRe(QWidget):
         self.btn_back = QPushButton("뒤로가기", self)
         self.layout.addWidget(self.btn_back, 0, 1)
         self.btn_back.clicked.connect(lambda: parent.route_page('cafe'))
+        datas = self.bring_info(self.idx)
+        self.data = datas[0]
 
-        self.rnlb = QLabel(self.bring_info(self.idx)[0][0], self)       # 리스트 0번째 튜플의 0번째 것
+        self.rnlb = QLabel(self.data[0], self)       # 리스트 0번째 튜플의 0번째 것
         self.btn_site = QPushButton("사이트 바로 가기", self)
         self.layout.addWidget(self.rnlb, 1, 0)
         self.layout.addWidget(self.btn_site, 1, 1)
-        # self.btn_site.clicked.connect(self.go_site(idx))
-
+        print(self.data[1])
+        self.btn_site.clicked.connect(lambda: parent.route_page('cafe_web_view', self.data[1]))
         self.maketable(idx)
-
-
-    def go_site(self,idx):
-        url = self.bring_info(idx)[0][1]
-        print(url)
-        site = Form(url)
 
 
     def bring_info(self, idx):
@@ -78,18 +74,3 @@ class CafeRe(QWidget):
                 self.table.setItem(i,j, QTableWidgetItem(str(row[i][j])))
 
         self.layout.addWidget(self.table, 2, 0, 1, 2)
-
-
-# class Form(QWidget):
-#     def __init__(self, url):
-#         QWidget.__init__(self, flags=Qt.Widget)
-#         self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
-#         self.setLayout(self.form_layout)
-#         self.init_widget(url)
-
-#     def init_widget(self,url):
-#         self.setWindowTitle("QWebEngineView")
-#         # QWebEngineView 를 이용하여 웹 페이지를 표출
-#         web = QWebEngineView()
-#         web.setUrl(QUrl(url))
-#         self.form_layout.addWidget(web)
