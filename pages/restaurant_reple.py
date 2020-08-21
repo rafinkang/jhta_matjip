@@ -114,6 +114,11 @@ class Restaurant_reple(QWidget):
         self.layout.addWidget(self.combobox_score, 2, 0, 1, 1)
         self.layout.addWidget(self.lineedit_reple, 2, 1, 1, 8)
 
+        # 위젯 만들어 넣기 그림
+        self.widget_img = Image_webview(self,self.params)
+        self.layout.addWidget(self.widget_img, 3, 0, 1, 10)
+        
+
         for i in range(11):
             self.combobox_score.addItem(str(5-i*0.5)+"점")
                 
@@ -239,7 +244,7 @@ class Restaurant_reple(QWidget):
         self.table.setColumnWidth(3, 450) #컬럼 사이즈 설정
         
 
-        self.layout.addWidget(self.table, 3, 0, 1,10)
+        self.layout.addWidget(self.table, 4, 0, 1,10)
 
 
     def newwindow(self):
@@ -256,6 +261,48 @@ class NewWindow(QMainWindow):
         self.setCentralWidget(Restaurant_webview(self,params))
 
 class Restaurant_webview(QWidget):
+    def __init__(self, parent, params):
+        super().__init__()
+        self.parent = parent
+        self.params = params
+        print(params)
+        self.initUI(parent)
+
+        self.select_restaurant_url()
+
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
+        self.setLayout(self.form_layout)
+        self.init_widget()
+        
+    def init_widget(self):
+        self.setWindowTitle("QWebEngineView")
+        # QWebEngineView 를 이용하여 웹 페이지를 표출
+        web = QWebEngineView()
+        web.setUrl(QUrl(self.url))
+        self.form_layout.addWidget(web)
+
+    def select_restaurant_url(self):
+        # self.params 를 가지고 셀렉트 돌려서 식당정보 가져오기
+        
+        sql_select_restaurant_url = """
+        SELECT 
+            IMAGE_URL
+        FROM restaurant
+        WHERE r_idx = {}
+        """.format(self.params)
+            
+        db = DbConn()
+        self.url = db.execute(sql_select_restaurant_url)[0][0]
+        print(self.url)
+
+
+    def initUI(self, parent):
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+
+
+class Image_webview(QWidget):
     def __init__(self, parent, params):
         super().__init__()
         self.parent = parent

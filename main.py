@@ -12,11 +12,12 @@ from pages.party import *
 from pages.party_insert import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
-from pages.restaurant_webview import *
 # from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
 
+# pip install PyQtWebEngine
+# 실행해서 설치해주세요
 
 
 class JhtaMatjip(QMainWindow):
@@ -61,5 +62,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('restaurant')
+    main.route_page('login')
     sys.exit(app.exec_())
