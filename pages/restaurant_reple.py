@@ -8,6 +8,8 @@ import time
 
 import pyautogui
 
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+
 class Restaurant_reple(QWidget):
     def __init__(self, parent, params):
         super().__init__()
@@ -116,13 +118,16 @@ class Restaurant_reple(QWidget):
             self.combobox_score.addItem(str(5-i*0.5)+"점")
                 
         self.btn_back = QPushButton("뒤로가기", self)
+        self.btn_webview = QPushButton("사이트가기", self)
         self.btn_newreple = QPushButton("댓글달기", self)
         
-        self.layout.addWidget(self.btn_back, 0, 9, 2, 1)
+        self.layout.addWidget(self.btn_back, 0, 9, 1, 1)
+        self.layout.addWidget(self.btn_webview, 1, 9, 1, 1)
         self.layout.addWidget(self.btn_newreple, 2, 9, 1, 1)
         self.create_table()
         
         self.btn_back.clicked.connect(lambda: parent.route_page('restaurant'))
+        self.btn_webview.clicked.connect(self.newwindow)
         self.btn_newreple.clicked.connect(self.new_reple)
     
     def new_reple(self):
@@ -206,10 +211,6 @@ class Restaurant_reple(QWidget):
 
 
 
-
-
-
-
     def create_table(self):
         self.table = QTableWidget()        
         
@@ -239,3 +240,58 @@ class Restaurant_reple(QWidget):
         
 
         self.layout.addWidget(self.table, 3, 0, 1,10)
+
+
+    def newwindow(self):
+        print("사이트가기 버튼 눌림")
+        # NewWindow 매개변수가 있는 초기화 함수 호출
+        self.nw = NewWindow(self,self.params) 
+        self.nw.show()
+
+
+class NewWindow(QMainWindow):
+    def __init__(self, parent, params):
+        super().__init__(parent)
+        self.setGeometry(50,50,1200,800)
+        self.setCentralWidget(Restaurant_webview(self,params))
+
+class Restaurant_webview(QWidget):
+    def __init__(self, parent, params):
+        super().__init__()
+        self.parent = parent
+        self.params = params
+        print(params)
+        self.initUI(parent)
+
+        self.select_restaurant_url()
+
+        QWidget.__init__(self, flags=Qt.Widget)
+        self.form_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
+        self.setLayout(self.form_layout)
+        self.init_widget()
+        
+    def init_widget(self):
+        self.setWindowTitle("QWebEngineView")
+        # QWebEngineView 를 이용하여 웹 페이지를 표출
+        web = QWebEngineView()
+        web.setUrl(QUrl(self.url))
+        self.form_layout.addWidget(web)
+
+    def select_restaurant_url(self):
+        # self.params 를 가지고 셀렉트 돌려서 식당정보 가져오기
+        
+        sql_select_restaurant_url = """
+        SELECT 
+            IMAGE_URL
+        FROM restaurant
+        WHERE r_idx = {}
+        """.format(self.params)
+            
+        db = DbConn()
+        self.url = db.execute(sql_select_restaurant_url)[0][0]
+        print(self.url)
+
+
+    def initUI(self, parent):
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
