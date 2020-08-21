@@ -27,7 +27,7 @@ for j in range(15):
 
     # 화면 최대화
     browser.maximize_window()
-    time.sleep(10)
+    time.sleep(1)
 
     if browser.find_element_by_css_selector("#container > div.placemap_area > div.list_wrapper > div > div.list_area > ul"):
         print("페이지에서 20개 데이터 받기 성공")
@@ -50,6 +50,7 @@ for j in range(15):
         print(naver_idx)
         # 리스트에 각 식당의 네이버 id 입력
         
+
         image_url = url_place + str(naver_idx)
         res = requests.get(image_url) 
         # res.raise_for_status()
@@ -65,6 +66,18 @@ for j in range(15):
         soup = bs(res.text,'lxml')
         # pprint(soup)
         # /t 이런거 없애준 예쁜 코드
+
+        blog = soup.find("li",attrs={"class","type_review"})
+        # print(blog)
+        if blog:
+            blog2 = blog.find("div",attrs={"class","thumb"})
+            image_url = blog2.find('img')['src']
+            print(image_url)
+            
+        else:
+            image_url = "없음"
+        # pprint(image_url)
+
 
         r_name = soup.find("strong",attrs={"class","name"}).text
         pprint(r_name)
