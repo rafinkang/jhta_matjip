@@ -10,7 +10,6 @@ class PartyDetail(QWidget):
         super().__init__()
         self.parent = parent
         self.p_idx = p_idx
-        print(p_idx)
         self.initUI(parent)
         
     def initUI(self, parent):
@@ -56,6 +55,11 @@ class PartyDetail(QWidget):
         
         self.btn_back.clicked.connect(lambda: parent.route_page('party'))
         self.btn_reple.clicked.connect(self.set_reple)
+        
+    def keyPressEvent(self, e):
+        key = e.key()
+        if key == Qt.Key_Enter or key == Qt.Key_Return:
+            self.set_reple()
         
         
     
@@ -108,10 +112,11 @@ class PartyDetail(QWidget):
     
     def set_reple(self):
         reple = self.lineedit_reple.text()
-        db = DbConn()
-        query = "INSERT INTO party_reple(p_idx, user_id, reple, rep_time, status) VALUES (:p_idx, :user_id, :reple, sysdate, 1)"
-        db.execute(query, {"p_idx":self.p_idx, "user_id":self.parent.user_id, "reple":reple})
-        self.parent.route_page("party_detail", self.p_idx)
+        if reple != '' :
+            db = DbConn()
+            query = "INSERT INTO party_reple(p_idx, user_id, reple, rep_time, status) VALUES (:p_idx, :user_id, :reple, sysdate, 1)"
+            db.execute(query, {"p_idx":self.p_idx, "user_id":self.parent.user_id, "reple":reple})
+            self.parent.route_page("party_detail", self.p_idx)
         
     def del_party(self):
         db = DbConn()
@@ -137,7 +142,6 @@ class PartyDetail(QWidget):
             self.mem_list.append(self.parent.user_name)
             member_list = ",".join(self.mem_list)
             cur_member += 1
-            print(member_list, cur_member)
             db.execute(query, {"member_list": member_list, "cur_member": cur_member, "p_idx":self.p_idx})
 
             self.alert_msg("파티에 참가하였습니다.")

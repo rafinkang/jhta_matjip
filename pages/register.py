@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from classes.DbConn import *
+import datetime
 
 class Register(QWidget):
     def __init__(self, parent):
@@ -20,7 +21,9 @@ class Register(QWidget):
         self.le_id = QLineEdit(self)
         self.le_pw = QLineEdit(self)
         self.le_name = QLineEdit(self)
-        self.le_birth = QLineEdit(self)
+        # self.le_birth = QLineEdit(self)
+        self.le_birth = QDateEdit(self)
+        self.le_birth.setMinimumDateTime(datetime.datetime.now())
         self.le_tel = QLineEdit(self)
 
         self.btn_register = QPushButton("가입하기", self)
@@ -42,8 +45,8 @@ class Register(QWidget):
         grid.addWidget(self.le_birth, 3, 1)
         grid.addWidget(self.lb_tel, 4, 0)
         grid.addWidget(self.le_tel, 4, 1)
-        grid.addWidget(self.btn_register, 5, 0)
-        grid.addWidget(self.btn_main, 5, 1)
+        grid.addWidget(self.btn_register, 5, 0, 1, 2)
+        grid.addWidget(self.btn_main, 6, 0, 1, 2)
     
     def regist(self):
         user_id = self.le_id.text()

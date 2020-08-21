@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from classes.DbConn import *
+import datetime
 
 class FindId(QWidget):
     def __init__(self, parent):
@@ -15,7 +16,9 @@ class FindId(QWidget):
         self.lb_birth = QLabel("생년월일", self)
         
         self.le_name = QLineEdit(self)
-        self.le_birth = QLineEdit(self)
+        # self.le_birth = QLineEdit(self)
+        self.le_birth = QDateEdit(self)
+        self.le_birth.setMinimumDateTime(datetime.datetime.now())
 
         self.btn_find = QPushButton("찾기", self)
         self.btn_back = QPushButton("뒤로가기", self)
