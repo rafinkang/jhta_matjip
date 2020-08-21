@@ -10,7 +10,6 @@ class PartyDetail(QWidget):
         super().__init__()
         self.parent = parent
         self.p_idx = p_idx
-        print(p_idx)
         self.initUI(parent)
         
     def initUI(self, parent):
@@ -18,8 +17,9 @@ class PartyDetail(QWidget):
         self.setLayout(self.layout)
         
         datas = self.get_party_data()
-        p_idx, title, create_id, self.cur_mem, self.max_mem, self.mem_list, status, end_time = datas[0]
-        self.mem_list = self.mem_list.split("!")
+        p_idx, title, create_id, self.cur_mem, self.max_mem, member_list, status, end_time = datas[0]
+        self.mem_list = member_list
+        self.mem_list = self.mem_list.split(",")
         
         self.btn_party = QPushButton("파티참가", self)
         self.btn_back = QPushButton("뒤로가기", self)
@@ -32,12 +32,34 @@ class PartyDetail(QWidget):
         else:
             self.btn_party.clicked.connect(self.join_party)
 
+        self.label_title = QLabel(title, self)
+        self.label_user_id = QLabel("파티장 : "+ create_id, self)
+        self.label_mem_list = QLabel("파티원 : "+ member_list, self)
+        
+        # QListWidgetItem()
 
-        self.layout.addWidget(self.btn_party, 0, 0)
-        self.layout.addWidget(self.btn_back, 0, 1)
+        self.lineedit_reple = QLineEdit()
+        self.btn_reple = QPushButton("댓글달기", self)
+
+        self.layout.addWidget(self.label_title, 0, 0, 1, 2)
+        self.layout.addWidget(self.label_user_id, 0, 2, 1, 1)
+        self.layout.addWidget(self.btn_back, 0, 3, 1, 1)
+
+        self.layout.addWidget(self.label_mem_list, 1, 0, 1, 3)
+
+        self.layout.addWidget(self.btn_party, 1, 3, 1, 1)
+        self.layout.addWidget(self.lineedit_reple, 2, 0, 1, 3)
+        self.layout.addWidget(self.btn_reple, 2, 3, 1, 1)
+        
         self.create_table()
         
         self.btn_back.clicked.connect(lambda: parent.route_page('party'))
+        self.btn_reple.clicked.connect(self.set_reple)
+        
+    def keyPressEvent(self, e):
+        key = e.key()
+        if key == Qt.Key_Enter or key == Qt.Key_Return:
+            self.set_reple()
         
         
     
@@ -53,10 +75,13 @@ class PartyDetail(QWidget):
         
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
         self.table.setColumnCount(3) 
-        self.table.setRowCount(17) 
+        self.table.setRowCount(16) 
         # column header 명 설정. 
-        self.table.setHorizontalHeaderLabels(["작성시간", "댓글", "아이디"]) 
+        self.table.setHorizontalHeaderLabels(["작성시간", "댓글", "작성자"]) 
         reple_datas = self.get_party_reple_data()
+        self.table.setColumnWidth(0, 75) #컬럼 사이즈 설정
+        self.table.setColumnWidth(1, 500) #컬럼 사이즈 설정
+        self.table.setColumnWidth(2, 100) #컬럼 사이즈 설정
         
         row = 0
         for data in reple_datas:
@@ -68,13 +93,10 @@ class PartyDetail(QWidget):
             self.table.setItem(row, 2, QTableWidgetItem(rep_user_id)) 
             
             self.table.setEditTriggers(QAbstractItemView.NoEditTriggers) # edit 금지 모드 
-            self.table.setColumnWidth(0, 100) #컬럼 사이즈 설정
-            self.table.setColumnWidth(1, 600) #컬럼 사이즈 설정
-            self.table.setColumnWidth(2, 100) #컬럼 사이즈 설정
             
             row += 1
 
-        self.layout.addWidget(self.table, 1, 0, 1, 2)
+        self.layout.addWidget(self.table, 3, 0, 1, 4)
         
     def get_party_data(self):
         db = DbConn()
@@ -84,15 +106,17 @@ class PartyDetail(QWidget):
     
     def get_party_reple_data(self):
         db = DbConn()
-        query = "SELECT * FROM party_reple WHERE p_idx = :p_idx"
+        query = "SELECT * FROM party_reple WHERE p_idx = :p_idx ORDER BY rep_time"
         datas = db.execute(query, {"p_idx":self.p_idx})
         return datas
     
-    def set_reple(self, reple):
-        db = DbConn()
-        query = "INSERT INTO party_reple(p_idx, user_id, reple, rep_time, status) VALUES (:p_idx, :user_id, :reple, sysdate, 1)"
-        db.execute(query, {"p_idx":self.p_idx, "user_id":self.parent.user_id, "reple":reple})
-        self.parent.route_page("party_detail", self.p_idx)
+    def set_reple(self):
+        reple = self.lineedit_reple.text()
+        if reple != '' :
+            db = DbConn()
+            query = "INSERT INTO party_reple(p_idx, user_id, reple, rep_time, status) VALUES (:p_idx, :user_id, :reple, sysdate, 1)"
+            db.execute(query, {"p_idx":self.p_idx, "user_id":self.parent.user_id, "reple":reple})
+            self.parent.route_page("party_detail", self.p_idx)
         
     def del_party(self):
         db = DbConn()
@@ -105,7 +129,7 @@ class PartyDetail(QWidget):
         db = DbConn()
         query = "UPDATE matjip_party SET member_list = :member_list , cur_member = cur_member-1 WHERE p_idx = :p_idx"
         self.mem_list.remove(self.parent.user_name)
-        member_list = "!".join(self.mem_list)
+        member_list = ",".join(self.mem_list)
         db.execute(query, {"member_list": member_list, "p_idx":self.p_idx})
         self.alert_msg("파티 탈퇴 성공 !")
         self.parent.route_page("party_detail", self.p_idx)
@@ -116,9 +140,8 @@ class PartyDetail(QWidget):
         cur_member = self.cur_mem
         if  cur_member <= self.max_mem:
             self.mem_list.append(self.parent.user_name)
-            member_list = "!".join(self.mem_list)
+            member_list = ",".join(self.mem_list)
             cur_member += 1
-            print(member_list, cur_member)
             db.execute(query, {"member_list": member_list, "cur_member": cur_member, "p_idx":self.p_idx})
 
             self.alert_msg("파티에 참가하였습니다.")

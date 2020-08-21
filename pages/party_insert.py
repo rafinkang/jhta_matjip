@@ -34,8 +34,10 @@ class PartyInsert(QWidget):
 
         grid.addWidget(self.lb_title, 0, 0)
         grid.addWidget(self.le_title, 0, 1)
+        
         grid.addWidget(self.lb_max_member, 1, 0)
         grid.addWidget(self.le_max_member, 1, 1)
+        
         grid.addWidget(self.lb_end_time, 2, 0)
         grid.addWidget(self.le_end_time, 2, 1)
         
