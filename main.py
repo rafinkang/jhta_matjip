@@ -13,6 +13,7 @@ from pages.party_insert import *
 from pages.party_detail import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
+import urllib.request
 # from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
@@ -31,6 +32,8 @@ class JhtaMatjip(QMainWindow):
         
     def route_page(self, page_name, params = None):
         if page_name == 'login':
+            # self.setBackgroundImage('C:/Users/user/Pictures/boss.png')
+            # self.setBackgroundImage('https://www.design-seeds.com/wp-content/uploads/2017/08/ColorServe9_150.png', True)
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
             self.setCentralWidget(Menu(self))
@@ -59,6 +62,18 @@ class JhtaMatjip(QMainWindow):
         
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
+        
+    def setBackgroundImage(self, url, web = False):
+        if web:
+            imageFromWeb = urllib.request.urlopen(url).read()
+            q_img = QPixmap()
+            q_img.loadFromData(imageFromWeb)
+        else:
+            q_img = QPixmap(url)
+        s_img = q_img.scaled(QSize(self.width(), self.height()))
+        palette = QPalette()
+        palette.setBrush(10, QBrush(s_img))
+        self.setPalette(palette)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
