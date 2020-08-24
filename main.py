@@ -13,8 +13,9 @@ from pages.party_insert import *
 from pages.party_detail import *
 from pages.restaurant import *
 from pages.restaurant_reple import *
+from pages.mart import *
+from pages.mart_basket import *
 import urllib.request
-# from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
 
@@ -32,9 +33,7 @@ class JhtaMatjip(QMainWindow):
         
     def route_page(self, page_name, params = None):
         if page_name == 'login':
-            # self.setBackgroundImage('C:/Users/user/Pictures/boss.png')
-            # self.setBackgroundImage('https://www.design-seeds.com/wp-content/uploads/2017/08/ColorServe9_150.png', True)
-            self.setBackgroundImage('https://file3.instiz.net/data/file3/2018/02/24/f/f/c/ffc95f24889edba8d744b18c657fec36.png', True)
+            self.setBackgroundImage('images/login.jpg')
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
             self.setBackgroundImage('image/bg.png')
@@ -42,6 +41,7 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'register':
             self.setCentralWidget(Register(self))
         elif page_name == 'find_id':
+            self.setBackgroundImage('images/find_id.jpg')
             self.setCentralWidget(FindId(self))
         elif page_name == 'party':
             self.setCentralWidget(Party(self))
@@ -51,10 +51,14 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
-        # elif page_name == 'mart':
-        #     self.setCentralWidget(Mart(self))
         elif page_name == 'restaurant_reple':
             self.setCentralWidget(Restaurant_reple(self, params))
+        elif page_name == 'mart':
+            Mart(self)
+        elif page_name == 'mart_basket':
+            self.setCentralWidget(MartRe(self, params))
+        # elif page_name == 'restaurant_webview':
+        #     self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'restaurant_webview':
             self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'cafe':

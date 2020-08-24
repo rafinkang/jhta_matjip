@@ -65,15 +65,17 @@ for j in range(3):       # len(id)
         res = requests.get(url1)
         res.raise_for_status()      
         soup = bs(res.text,'lxml')
-        # print(soup)
-        main_img = soup.find_all("div",attrs={"class":"_page"})
-        if len(main_img) >= 1:
+        print(soup)
+        main_img = soup.find_all("div",attrs={"class":"_item"})
+        img = main_img.find('meta')['content']
+        # if main_img:
             # img = blog.find("div",attrs={"class":"thumb"})
             # img = blog2.find('img')['src']
-            print(main_img)
-        else:
-            main_img = "없음"
-            print(main_img)
+        print('--------------------')
+        print(img)
+        # else:
+        #     main_img = "없음"
+        #     print(main_img)
 
     except Exception as e:
         if e == 'Message: no such element: Unable to locate element: {"method":"css selector","selector":"#content > div:nth-child(2) > div.bizinfo_area > div > div.list_item.list_item_menu > div > ul > li:nth-child(1) > div > div > div > span.name"}':
