@@ -71,8 +71,6 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'cafe_re':
             self.setBackgroundColor('#ffffff')
             self.setCentralWidget(CafeRe(self, params))
-        # elif page_name == 'cafe_web_view':
-            self.cwv = self.CafeWebView(self)
         
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))

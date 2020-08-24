@@ -17,8 +17,19 @@ class Cafe(QWidget):
     def initUI(self, parent):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-        self.btn_random = QPushButton("랜덤뽑기 ㅋ", self)
-        self.btn_back = QPushButton("뒤로가기", self)
+
+        self.btn_random = QPushButton("", self)
+        icon_rd = QIcon('images/random.jpg')
+        self.btn_random.setIcon(icon_rd)     
+        self.btn_random.resize(350,200)
+        self.btn_random.setIconSize(QSize(405,200))
+
+        self.btn_back = QPushButton("", self)
+        icon_back = QIcon('images/back.jpg')
+        self.btn_back.setIcon(icon_back)     
+        self.btn_back.resize(200,200)
+        self.btn_back.setIconSize(QSize(200,200))
+
         self.layout.addWidget(self.btn_random, 0, 0)
         self.layout.addWidget(self.btn_back, 0, 1)
         self.maketable()
@@ -28,8 +39,9 @@ class Cafe(QWidget):
     # 디자인
         self.btn_random.setStyleSheet('background-color: pink;'
                                       'color: red;'
-                                      'border: 2px dashed skyblue;')
-        self.btn_back.setStyleSheet('background-color: skyblue;'
+                                      'border: 2px dashed skyblue;'
+                                      'width: 30px')
+        self.btn_back.setStyleSheet(
                                     'color: #0055ff;'
                                     'border: 2px dashed pink;')
 
