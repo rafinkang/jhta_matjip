@@ -48,6 +48,7 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundColor('#ffffff')
             self.setCentralWidget(Party(self))
         elif page_name == 'party_insert':
+            self.setBackgroundImage('images/party_insert.jpg')
             self.setCentralWidget(PartyInsert(self))
         elif page_name == 'party_detail':
             self.setCentralWidget(PartyDetail(self, params))

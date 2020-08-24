@@ -12,11 +12,6 @@ class PartyInsert(QWidget):
         self.initUI(parent)
         
     def initUI(self, parent):
-        # ["제목", "생성자", "현재인원", "모집인원", "종료시간", "버튼"]
-        self.lb_title = QLabel("제목", self)
-        self.lb_max_member = QLabel("모집인원", self)
-        self.lb_end_time = QLabel("종료시간", self)
-
         self.le_title = QLineEdit(self)
         # self.le_max_member = QLineEdit(self)
         self.le_max_member = QSpinBox(self)
@@ -31,20 +26,15 @@ class PartyInsert(QWidget):
         self.btn_new_party.clicked.connect(self.new_party)
         self.btn_back.clicked.connect(lambda: parent.route_page('party'))
 
-        grid = QGridLayout()
-        self.setLayout(grid)
 
-        grid.addWidget(self.lb_title, 0, 0)
-        grid.addWidget(self.le_title, 0, 1)
-        
-        grid.addWidget(self.lb_max_member, 1, 0)
-        grid.addWidget(self.le_max_member, 1, 1)
-        
-        grid.addWidget(self.lb_end_time, 2, 0)
-        grid.addWidget(self.le_end_time, 2, 1)
-        
-        grid.addWidget(self.btn_new_party, 3, 0)
-        grid.addWidget(self.btn_back, 3, 1)
+        self.le_title.setGeometry(610, 155, 150, 25)
+        self.le_max_member.setGeometry(610, 220, 150, 25)
+        self.le_end_time.setGeometry(610, 280, 150, 25)
+        self.btn_new_party.setGeometry(610, 335, 150, 25)
+        self.btn_back.setGeometry(610, 390, 150, 25)
+
+        self.btn_new_party.setStyleSheet("background-color: #B06649; color: #FFF; border-radius:10px")
+        self.btn_back.setStyleSheet("background-color: #119A19; color: #FFF; border-radius:10px")
     
     def new_party(self):
         title = self.le_title.text()
