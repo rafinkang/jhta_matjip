@@ -36,7 +36,7 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundImage('images/login.jpg')
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
-            self.setBackgroundImage('image/bg.png')
+            self.setBackgroundImage('images/bg.png')
             self.setCentralWidget(Menu(self))
         elif page_name == 'register':
             self.setBackgroundImage('images/register_type.jpg')
