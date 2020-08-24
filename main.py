@@ -56,7 +56,7 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'mart':
             Mart(self)
         elif page_name == 'mart_basket':
-            self.setCentralWidget(MartRe(self,params))
+            self.setCentralWidget(MartRe(self, params))
         # elif page_name == 'restaurant_webview':
         #     self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'restaurant_webview':
