@@ -36,7 +36,7 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundImage('images/login.jpg')
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
-            self.setBackgroundImage('image/bg.png')
+            self.setBackgroundImage('images/bg.png')
             self.setCentralWidget(Menu(self))
         elif page_name == 'register':
             self.setCentralWidget(Register(self))
@@ -89,5 +89,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('menu')
+    main.route_page('login')
     sys.exit(app.exec_())
