@@ -25,6 +25,13 @@ class Cafe(QWidget):
         self.btn_random.clicked.connect(self.random)
         self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
 
+    # 디자인
+        self.btn_random.setStyleSheet('background-color: pink;'
+                                      'color: red;'
+                                      'border: 2px dashed skyblue;')
+        self.btn_back.setStyleSheet('background-color: skyblue;'
+                                    'color: #0055ff;'
+                                    'border: 2px dashed pink;')
 
     def bringdata(self):
         db = DbConn()
@@ -62,8 +69,13 @@ class Cafe(QWidget):
                 self.table.setItem(i,j, QTableWidgetItem(str(row[i][j+1])))
             self.btn = QPushButton('댓글보기',self)
             self.table.setCellWidget(i,6,self.btn)
-            self.connect_btn(self.btn,row[i][0])    
+            self.connect_btn(self.btn,row[i][0])         # 버튼을 누를 때 row[i][0](r_idx)값을 함께 전달 함
         
+    # 디자인
+        self.btn.setStyleSheet('background-color: skyblue;'
+                                    'color: #0055ff;'
+                                    'border: 2px dashed pink;')
+
 
     def connect_btn(self,btn,idx):
         self.btn.clicked.connect(lambda: self.parent.route_page('cafe_re', idx))

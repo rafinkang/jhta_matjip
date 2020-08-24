@@ -12,13 +12,12 @@ class FindId(QWidget):
         self.initUI(parent)
         
     def initUI(self, parent):
-        self.lb_name = QLabel("이름", self)
-        self.lb_birth = QLabel("생년월일", self)
+        # self.lb_name = QLabel("이름", self)
+        # self.lb_birth = QLabel("생년월일", self)
         
         self.le_name = QLineEdit(self)
-        # self.le_birth = QLineEdit(self)
         self.le_birth = QDateEdit(self)
-        self.le_birth.setMinimumDateTime(datetime.datetime.now())
+        # self.le_birth.setMaximumDate(datetime.datetime.now())
 
         self.btn_find = QPushButton("찾기", self)
         self.btn_back = QPushButton("뒤로가기", self)
@@ -26,15 +25,23 @@ class FindId(QWidget):
         self.btn_find.clicked.connect(self.find)
         self.btn_back.clicked.connect(lambda: parent.route_page('login'))
 
-        grid = QGridLayout()
-        self.setLayout(grid)
+        self.btn_find.setStyleSheet("background-color: #774739; color: #FFDE8D; border-radius: 10px;")
+        self.btn_back.setStyleSheet("background-color: #26B798; color: #4C3628; border-radius: 10px;")
 
-        grid.addWidget(self.lb_name, 0, 0)
-        grid.addWidget(self.le_name, 0, 1)
-        grid.addWidget(self.lb_birth, 1, 0)
-        grid.addWidget(self.le_birth, 1, 1)
-        grid.addWidget(self.btn_find, 2, 0)
-        grid.addWidget(self.btn_back, 2, 1)
+        self.le_name.setGeometry(350, 170, 100, 25)
+        self.le_birth.setGeometry(350, 235, 100, 25)
+        self.btn_find.setGeometry(350, 300, 100, 25)
+        self.btn_back.setGeometry(350, 365, 100, 25)
+
+        # grid = QGridLayout()
+        # self.setLayout(grid)
+
+        # grid.addWidget(self.lb_name, 0, 0)
+        # grid.addWidget(self.le_name, 0, 1)
+        # grid.addWidget(self.lb_birth, 1, 0)
+        # grid.addWidget(self.le_birth, 1, 1)
+        # grid.addWidget(self.btn_find, 2, 0)
+        # grid.addWidget(self.btn_back, 2, 1)
         
     def find(self):
         name = self.le_name.text()
