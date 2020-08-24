@@ -110,12 +110,12 @@ class Restaurant(QWidget):
         
 
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers) # edit 금지 모드 
-        self.table.setColumnWidth(2, 70) #컬럼 사이즈 설정
+        self.table.setColumnWidth(2, 100) #컬럼 사이즈 설정
         self.table.setColumnWidth(3, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(4, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(5, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(6, 50) #컬럼 사이즈 설정
-        self.table.setColumnWidth(7, 50) #컬럼 사이즈 설정
+        self.table.setColumnWidth(7, 100) #컬럼 사이즈 설정
         self.table.setColumnWidth(8, 150) #컬럼 사이즈 설정
         self.table.setColumnWidth(9, 60) #컬럼 사이즈 설정
         
