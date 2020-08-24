@@ -34,18 +34,18 @@ class Register(QWidget):
         self.le_birth.setGeometry(250,304,170,30)
         self.le_tel = QLineEdit(self)
         self.le_tel.setGeometry(250,345,170,30)
-        self.btn_main = QPushButton("뒤로", self)
+        self.btn_main = QPushButton("BACK", self)
         self.btn_main.setGeometry(710,150,50,50)
         self.btn_main.setStyleSheet('background-color: #A81919;'
-                                      'font: ;'
-                                      'border: 3px solid #19090A;'
-                                      'border-radius: 20px;')
-        self.btn_register = QPushButton("가입하기", self)
+                                    'font: bold 11px;'
+                                    'border: 3px solid #19090A;'
+                                    'border-radius: 20px;')
+        self.btn_register = QPushButton("JOIN", self)
         self.btn_register.setGeometry(710,410,50,50)
         self.btn_register.setStyleSheet('background-color: #A81919;'
-                                      'font: ;'
-                                      'border: 3px solid #19090A;'
-                                      'border-radius: 20px;')
+                                        'font: bold 11px;'
+                                        'border: 3px solid #19090A;'
+                                        'border-radius: 20px;')
 
         self.btn_register.clicked.connect(self.regist)
         self.btn_main.clicked.connect(lambda: parent.route_page('login'))
