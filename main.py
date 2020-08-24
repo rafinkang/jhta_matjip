@@ -39,19 +39,23 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundImage('image/bg.png')
             self.setCentralWidget(Menu(self))
         elif page_name == 'register':
+            self.setBackgroundImage('images/register_type.jpg')
             self.setCentralWidget(Register(self))
         elif page_name == 'find_id':
             self.setBackgroundImage('images/find_id.jpg')
             self.setCentralWidget(FindId(self))
         elif page_name == 'party':
+            self.setBackgroundColor('#ffffff')
             self.setCentralWidget(Party(self))
         elif page_name == 'party_insert':
             self.setCentralWidget(PartyInsert(self))
         elif page_name == 'party_detail':
             self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
+            self.setBackgroundColor('#ffffff')
             self.setCentralWidget(Restaurant(self))
         elif page_name == 'restaurant_reple':
+            self.setBackgroundColor('#ffffff')
             self.setCentralWidget(Restaurant_reple(self, params))
         elif page_name == 'mart':
             Mart(self)
@@ -62,8 +66,10 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'restaurant_webview':
             self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'cafe':
+            self.setBackgroundColor('#ffffff')
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
+            self.setBackgroundColor('#ffffff')
             self.setCentralWidget(CafeRe(self, params))
         # elif page_name == 'cafe_web_view':
         #     self.cwv = self.CafeWebView(self)
@@ -82,6 +88,12 @@ class JhtaMatjip(QMainWindow):
         palette = QPalette()
         palette.setBrush(10, QBrush(s_img))
         self.setPalette(palette)
+    
+    def setBackgroundColor(self, color):
+        palette = QPalette()
+        palette.setColor(self.backgroundRole(), QColor(color))
+        self.setPalette(palette)
+    
 
 
 if __name__ == "__main__":  
@@ -89,5 +101,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('menu')
+    main.route_page('login')
     sys.exit(app.exec_())

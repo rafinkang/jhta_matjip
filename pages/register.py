@@ -12,11 +12,6 @@ class Register(QWidget):
         self.initUI(parent)
         
     def initUI(self, parent):
-        self.lb = QLabel('배경',self)
-        bg_img = QPixmap('E:/dev/jhta_matjip/images/register_type.jpg')
-        self.lb.setPixmap(bg_img)
-        self.lb.setGeometry(0,0,800,600)
-
         # self.lb_id = QLabel("ID", self)
         # self.lb_pw = QLabel("PW", self)
         # self.lb_name = QLabel("이름", self)
