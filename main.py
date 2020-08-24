@@ -83,5 +83,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('login')
+    main.route_page('register')
     sys.exit(app.exec_())
