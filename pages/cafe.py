@@ -21,29 +21,31 @@ class Cafe(QWidget):
         self.btn_random = QPushButton("", self)
         icon_rd = QIcon('images/random.jpg')
         self.btn_random.setIcon(icon_rd)     
-        self.btn_random.resize(350,200)
-        self.btn_random.setIconSize(QSize(405,200))
+        self.btn_random.resize(249,133)
+        self.btn_random.setIconSize(QSize(249,133))
+        self.btn_random.setStyleSheet('background-color: transparent')
 
         self.btn_back = QPushButton("", self)
         icon_back = QIcon('images/back.jpg')
         self.btn_back.setIcon(icon_back)     
-        self.btn_back.resize(200,200)
-        self.btn_back.setIconSize(QSize(200,200))
+        self.btn_back.resize(133,133)
+        self.btn_back.setStyleSheet('background-color: transparent')
+
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(self.btn_back)
+        self.btn_back.setIconSize(QSize(133,133))
 
         self.layout.addWidget(self.btn_random, 0, 0)
-        self.layout.addWidget(self.btn_back, 0, 1)
+        self.layout.addLayout(hbox, 0, 1)
         self.maketable()
         self.btn_random.clicked.connect(self.random)
         self.btn_back.clicked.connect(lambda: parent.route_page('menu'))
 
     # 디자인
-        self.btn_random.setStyleSheet('background-color: pink;'
-                                      'color: red;'
-                                      'border: 2px dashed skyblue;'
-                                      'width: 30px')
-        self.btn_back.setStyleSheet(
-                                    'color: #0055ff;'
-                                    'border: 2px dashed pink;')
+        self.btn_random.setStyleSheet('border: 3px dashed hotpink;'
+                                      'padding: 5px')
+        self.btn_back.setStyleSheet('border: 2px dashed black;')
 
     def bringdata(self):
         db = DbConn()
@@ -84,9 +86,9 @@ class Cafe(QWidget):
             self.connect_btn(self.btn,row[i][0])         # 버튼을 누를 때 row[i][0](r_idx)값을 함께 전달 함
         
     # 디자인
-        self.btn.setStyleSheet('background-color: skyblue;'
-                                    'color: #0055ff;'
-                                    'border: 2px dashed pink;')
+        # self.btn.setStyleSheet('background-color: skyblue;'
+        #                             'color: #0055ff;'
+        #                             'border: 2px dashed pink;')
 
 
     def connect_btn(self,btn,idx):
