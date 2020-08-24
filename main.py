@@ -49,16 +49,18 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
             self.setCentralWidget(Restaurant(self))
+        # elif page_name == 'mart':
+        #     self.setCentralWidget(Mart(self))
         elif page_name == 'restaurant_reple':
             self.setCentralWidget(Restaurant_reple(self, params))
-        # elif page_name == 'restaurant_webview':
-        #     self.setCentralWidget(Restaurant_webview(self, params))
-        # elif page_name == 'mart':
-        #     Mart(self)
+        elif page_name == 'restaurant_webview':
+            self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'cafe':
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
             self.setCentralWidget(CafeRe(self, params))
+        # elif page_name == 'cafe_web_view':
+        #     self.cwv = self.CafeWebView(self)
         
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
@@ -75,7 +77,8 @@ class JhtaMatjip(QMainWindow):
         palette.setBrush(10, QBrush(s_img))
         self.setPalette(palette)
 
-if __name__ == "__main__":
+
+if __name__ == "__main__":  
     app = QApplication(sys.argv)
     main = JhtaMatjip()
     
