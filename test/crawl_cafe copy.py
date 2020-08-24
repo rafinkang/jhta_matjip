@@ -33,7 +33,7 @@ browser = webdriver.Chrome('e:/dev/python_workspace/chromedriver.exe')
 
 info = []
 # 정보 뽑아오기  
-for j in range(len(id)):       
+for j in range(3):       # len(id)
     try:
         browser.get(url+id[j])
         time.sleep(1)
@@ -66,14 +66,14 @@ for j in range(len(id)):
         res.raise_for_status()      
         soup = bs(res.text,'lxml')
         # print(soup)
-        blog = soup.find("li",attrs={"class":"type_review"})
-        if blog:
-            blog2 = blog.find("div",attrs={"class":"thumb"})
-            img = blog2.find('img')['src']
-            print(img)
+        main_img = soup.find_all("div",attrs={"class":"_page"})
+        if len(main_img) >= 1:
+            # img = blog.find("div",attrs={"class":"thumb"})
+            # img = blog2.find('img')['src']
+            print(main_img)
         else:
-            img = "없음"
-            print(img)
+            main_img = "없음"
+            print(main_img)
 
     except Exception as e:
         if e == 'Message: no such element: Unable to locate element: {"method":"css selector","selector":"#content > div:nth-child(2) > div.bizinfo_area > div > div.list_item.list_item_menu > div > ul > li:nth-child(1) > div > div > div > span.name"}':
@@ -91,8 +91,8 @@ for j in range(len(id)):
 #     count += 1
 
 
-connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')      # 민수씨 db접속
-# connection = cx_Oracle.connect('scott','tigertiger','orcl.c2yvx9kfplxi.ap-northeast-2.rds.amazonaws.com:1521/orcl')      # 내껄로 잠깐 db접속
+# connection = cx_Oracle.connect('scott','tigertiger','orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl')      # 민수씨 db접속
+connection = cx_Oracle.connect('scott','tigertiger','orcl.c2yvx9kfplxi.ap-northeast-2.rds.amazonaws.com:1521/orcl')      # 내껄로 잠깐 db접속
 # print(connection)
 cur = connection.cursor()
 

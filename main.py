@@ -16,7 +16,6 @@ from pages.restaurant_reple import *
 # from pages.mart import *
 from pages.cafe import *
 from pages.cafe_re import *
-from pages.cafe_web_view import *
 
 # pip install PyQtWebEngine
 # 실행해서 설치해주세요
