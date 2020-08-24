@@ -72,6 +72,7 @@ class Restaurant(QWidget):
             R_IDX
         FROM restaurant
         WHERE R_CATEGORY not like '%카페%'
+        ORDER BY r_idx ASC
         """
 
         db = DbConn()

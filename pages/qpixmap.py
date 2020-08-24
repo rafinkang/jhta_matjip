@@ -2,16 +2,12 @@ import sys
 from PyQt5.QtWidgets import * 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5.QtGui import QPixmap
-import urllib.request
-
 import random
 import cx_Oracle
 from classes.DbConn import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import pyautogui
 import time
-
 
 
 class CafeRe(QWidget):
@@ -24,29 +20,22 @@ class CafeRe(QWidget):
 
 
     def initUI(self, parent, idx):
-        datas = self.bring_info(self.idx)
-        self.data = datas[0]
-
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-        self.img_lb = QLabel()
-        url = self.data[2]
-        self.img = urllib.request.urlopen(url).read()
-        self.pixmap = QPixmap()
-        self.pixmap.loadFromData(self.img)
-        self.img_lb.setPixmap(self.pixmap)
-        self.layout.addWidget(self.img_lb, 0, 0)
-
+        self.img = QPixmap('https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=http%3A%2F%2Fldb.phinf.naver.net%2F20200414_82%2F1586848471077L0cmi_JPEG%2Fa7vlVmTCgJhJ2JNsUEPL-t8m.jpg')
+        self.layout.addWidget(self.img,0,0)
         self.btn_back = QPushButton("뒤로가기", self)
         self.layout.addWidget(self.btn_back, 0, 2)
         self.btn_back.clicked.connect(lambda: parent.route_page('cafe'))
+        datas = self.bring_info(self.idx)
+        self.data = datas[0]
 
         self.rnlb = QLabel(self.data[0], self)       # 리스트 0번째 튜플의 0번째 것
         self.btn_site = QPushButton("사이트 바로 가기", self)
         self.layout.addWidget(self.rnlb, 1, 0, 1, 2)
         self.layout.addWidget(self.btn_site, 1, 2)
         # print(self.data[1])
-        self.btn_site.clicked.connect(lambda: self.new_window('https://store.naver.com/restaurants/detail?entry=pll&id='+str(self.data[1])))
+        self.btn_site.clicked.connect(lambda: self.new_window(self.data[1]))
 
         self.combo = QComboBox()
         for i in range(11):
@@ -64,7 +53,7 @@ class CafeRe(QWidget):
     def bring_info(self, idx):
         db = DbConn()
         sql = '''
-        select r_name, naver_idx, image_url
+        select r_name, image_url
         from restaurant
         where r_idx ='''+str(idx)
         rows = db.execute(sql)

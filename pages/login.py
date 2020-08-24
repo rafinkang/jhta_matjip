@@ -8,6 +8,8 @@ class Login(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
+        parent.user_id = None
+        parent.user_name = None
         self.initUI(parent)
         
     def initUI(self, parent):
@@ -33,8 +35,13 @@ class Login(QWidget):
         grid.addWidget(self.lb_pw, 1, 0)
         grid.addWidget(self.le_pw, 1, 1)
         grid.addWidget(self.btn_login, 2, 0, 1, 2)
-        grid.addWidget(self.btn_register, 3, 0)
-        grid.addWidget(self.btn_findpw, 3, 1)
+        grid.addWidget(self.btn_findpw, 3, 0, 1, 2)
+        grid.addWidget(self.btn_register, 4, 0, 1, 2)
+        
+    def keyPressEvent(self, e):
+        key = e.key()
+        if key == Qt.Key_Enter or key == Qt.Key_Return:
+            self.login()
         
     def login(self):
         user_id = self.le_id.text()

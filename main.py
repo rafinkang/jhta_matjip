@@ -15,6 +15,7 @@ from pages.restaurant import *
 from pages.restaurant_reple import *
 from pages.mart import *
 from pages.mart_basket import *
+import urllib.request
 from pages.cafe import *
 from pages.cafe_re import *
 
@@ -32,6 +33,9 @@ class JhtaMatjip(QMainWindow):
         
     def route_page(self, page_name, params = None):
         if page_name == 'login':
+            # self.setBackgroundImage('C:/Users/user/Pictures/boss.png')
+            # self.setBackgroundImage('https://www.design-seeds.com/wp-content/uploads/2017/08/ColorServe9_150.png', True)
+            self.setBackgroundImage('https://file3.instiz.net/data/file3/2018/02/24/f/f/c/ffc95f24889edba8d744b18c657fec36.png', True)
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
             self.setCentralWidget(Menu(self))
@@ -55,15 +59,32 @@ class JhtaMatjip(QMainWindow):
             self.setCentralWidget(MartRe(self,params))
         # elif page_name == 'restaurant_webview':
         #     self.setCentralWidget(Restaurant_webview(self, params))
+        elif page_name == 'restaurant_webview':
+            self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'cafe':
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
             self.setCentralWidget(CafeRe(self, params))
+        # elif page_name == 'cafe_web_view':
+        #     self.cwv = self.CafeWebView(self)
         
         # elif page_name == '':
         #     self.setCentralWidget(Class(self))
+        
+    def setBackgroundImage(self, url, web = False):
+        if web:
+            imageFromWeb = urllib.request.urlopen(url).read()
+            q_img = QPixmap()
+            q_img.loadFromData(imageFromWeb)
+        else:
+            q_img = QPixmap(url)
+        s_img = q_img.scaled(QSize(self.width(), self.height()))
+        palette = QPalette()
+        palette.setBrush(10, QBrush(s_img))
+        self.setPalette(palette)
 
-if __name__ == "__main__":
+
+if __name__ == "__main__":  
     app = QApplication(sys.argv)
     main = JhtaMatjip()
     
