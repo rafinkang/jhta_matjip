@@ -26,10 +26,26 @@ class Restaurant(QWidget):
     def initUI(self, parent):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-        self.btn_random_restaurant = QPushButton("랜덤", self)
-        self.btn_back = QPushButton("뒤로가기", self)
+        self.btn_random_restaurant = QPushButton("", self)
+        self.btn_back = QPushButton("", self)
+        
+        icon_back  = QIcon('E:\dev/jhta_matjip/images/back.jpg')
+        self.btn_back.setIcon(icon_back)
+        self.btn_back.resize(50, 50)
+        self.btn_back.setIconSize(QSize(50, 50))
+
+        icon_random_restaurant  = QIcon('E:\dev/jhta_matjip/images/random.jpg')
+        self.btn_random_restaurant.setIcon(icon_random_restaurant)
+        self.btn_random_restaurant.resize(50, 50)
+        self.btn_random_restaurant.setIconSize(QSize(50, 50))
+
+        hbox = QHBoxLayout()
+        hbox.addStretch()
+        hbox.addWidget(self.btn_back)
+        self.layout.addLayout(hbox,0,1)
+
         self.layout.addWidget(self.btn_random_restaurant, 0 ,0)
-        self.layout.addWidget(self.btn_back, 0, 1)
+        # self.layout.addWidget(self.btn_back, 0, 1)
 
         self.create_restaurant_table()
         
