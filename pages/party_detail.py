@@ -21,6 +21,7 @@ class PartyDetail(QWidget):
         self.mem_list = member_list
         self.mem_list = self.mem_list.split(",")
         
+        self.btn_refresh = QPushButton("새로고침", self)
         self.btn_party = QPushButton("파티참가", self)
         self.btn_back = QPushButton("뒤로가기", self)
         if self.parent.user_id == create_id:    
@@ -32,7 +33,7 @@ class PartyDetail(QWidget):
         else:
             self.btn_party.clicked.connect(self.join_party)
 
-        self.label_title = QLabel(title, self)
+        self.label_title = QLabel("제목 : "+ title, self)
         self.label_user_id = QLabel("파티장 : "+ create_id, self)
         self.label_mem_list = QLabel("파티원 : "+ member_list, self)
         
@@ -41,13 +42,14 @@ class PartyDetail(QWidget):
         self.lineedit_reple = QLineEdit()
         self.btn_reple = QPushButton("댓글달기", self)
 
-        self.layout.addWidget(self.label_title, 0, 0, 1, 2)
-        self.layout.addWidget(self.label_user_id, 0, 2, 1, 1)
+        self.layout.addWidget(self.label_title, 0, 0, 1, 1)
+        self.layout.addWidget(self.label_user_id, 0, 1, 1, 1)
+        self.layout.addWidget(self.btn_party, 0, 2, 1, 1)
         self.layout.addWidget(self.btn_back, 0, 3, 1, 1)
 
         self.layout.addWidget(self.label_mem_list, 1, 0, 1, 3)
 
-        self.layout.addWidget(self.btn_party, 1, 3, 1, 1)
+        self.layout.addWidget(self.btn_refresh, 1, 3, 1, 1)
         self.layout.addWidget(self.lineedit_reple, 2, 0, 1, 3)
         self.layout.addWidget(self.btn_reple, 2, 3, 1, 1)
         
@@ -73,15 +75,15 @@ class PartyDetail(QWidget):
         # self.table.setSelectionBehavior(QTableView.SelectRows) # multiple row 선택 가능 
         self.table.setSelectionMode(QAbstractItemView.SingleSelection) 
         
+        reple_datas = self.get_party_reple_data()
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
         self.table.setColumnCount(3) 
-        self.table.setRowCount(16) 
+        self.table.setRowCount(len(reple_datas)) 
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["작성시간", "댓글", "작성자"]) 
-        reple_datas = self.get_party_reple_data()
-        self.table.setColumnWidth(0, 75) #컬럼 사이즈 설정
-        self.table.setColumnWidth(1, 500) #컬럼 사이즈 설정
-        self.table.setColumnWidth(2, 100) #컬럼 사이즈 설정
+        self.table.setColumnWidth(0, 80) #컬럼 사이즈 설정
+        self.table.setColumnWidth(1, 570) #컬럼 사이즈 설정
+        self.table.setColumnWidth(2, 110) #컬럼 사이즈 설정
         
         row = 0
         for data in reple_datas:

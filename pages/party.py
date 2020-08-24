@@ -15,7 +15,10 @@ class Party(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.btn_new_party = QPushButton("파티생성", self)
+        self.btn_new_party.setStyleSheet("background-color:#119A19; padding:10px; border-radius:10px; color: #fff;")
         self.btn_back = QPushButton("뒤로가기", self)
+        self.btn_back.setStyleSheet("background-color:#B06649; padding:10px; border-radius:10px; color: #fff;")
+        
         self.layout.addWidget(self.btn_new_party, 0, 0)
         self.layout.addWidget(self.btn_back, 0, 1)
         self.create_table()
@@ -35,12 +38,12 @@ class Party(QWidget):
         # self.table.setSelectionBehavior(QTableView.SelectRows) # multiple row 선택 가능 
         self.table.setSelectionMode(QAbstractItemView.SingleSelection) 
         
+        datas = self.select_data()
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
         self.table.setColumnCount(6) 
-        self.table.setRowCount(17) 
+        self.table.setRowCount(len(datas)) 
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["제목", "생성자", "현재인원", "모집인원", "종료시간", "버튼"]) 
-        datas = self.select_data()
         
         btn_list = []
         row = 0
@@ -61,11 +64,12 @@ class Party(QWidget):
             # self.table.setItem(row, 5, QTableWidgetItem("참가버튼")) 
             
             party_btn = QPushButton("파티보기") 
+            party_btn.setStyleSheet("background-color:#DF8D6C; border-radius:7px; color: #fff;")
             btn_list.append([party_btn, p_idx])
             self.table.setCellWidget(row, 5, party_btn) 
             
             self.table.setEditTriggers(QAbstractItemView.NoEditTriggers) # edit 금지 모드 
-            self.table.setColumnWidth(0, 300) #컬럼 사이즈 설정
+            self.table.setColumnWidth(0, 310) #컬럼 사이즈 설정
             self.table.setColumnWidth(2, 75) #컬럼 사이즈 설정
             self.table.setColumnWidth(3, 75) #컬럼 사이즈 설정
             

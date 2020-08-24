@@ -45,12 +45,13 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundImage('images/find_id.jpg')
             self.setCentralWidget(FindId(self))
         elif page_name == 'party':
-            self.setBackgroundColor('#ffffff')
+            self.setBackgroundColor('#FEF2DC')
             self.setCentralWidget(Party(self))
         elif page_name == 'party_insert':
             self.setBackgroundImage('images/party_insert.jpg')
             self.setCentralWidget(PartyInsert(self))
         elif page_name == 'party_detail':
+            self.setBackgroundColor('#FEF2DC')
             self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
             self.setBackgroundColor('#84E2FF')
