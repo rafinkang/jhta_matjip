@@ -32,9 +32,7 @@ class JhtaMatjip(QMainWindow):
         
     def route_page(self, page_name, params = None):
         if page_name == 'login':
-            # self.setBackgroundImage('C:/Users/user/Pictures/boss.png')
-            # self.setBackgroundImage('https://www.design-seeds.com/wp-content/uploads/2017/08/ColorServe9_150.png', True)
-            self.setBackgroundImage('https://file3.instiz.net/data/file3/2018/02/24/f/f/c/ffc95f24889edba8d744b18c657fec36.png', True)
+            self.setBackgroundImage('images/login.jpg')
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
             self.setCentralWidget(Menu(self))
