@@ -68,8 +68,8 @@ for j in range(len(id)):
         # print(soup)
         blog = soup.find("li",attrs={"class":"type_review"})
         if blog:
-            blog2 = blog.find("div",attrs={"class":"thumb"})
-            img = blog2.find('img')['src']
+            blog2 = blog.find("div",attrs={"class":"thumb"})         # <div class='thumb'>를 포함한 모든 내용 가져옴
+            img = blog2.find('img')['src']       # <img src= 이하의 값을 가져옴
             print(img)
         else:
             img = "없음"
