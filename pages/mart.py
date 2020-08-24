@@ -952,7 +952,5 @@ class Mart(object):
         self.label15_4.setText(self._translate("Mart", "TextLabel"))
         
         self.label.setText(self._translate("Mart", "E*MART 24"))
-        self.menuMAIN.setTitle(self._translate("Mart", "MAIN"))
-        self.menuSTORE.setTitle(self._translate("Mart", "STORE"))
 
     
