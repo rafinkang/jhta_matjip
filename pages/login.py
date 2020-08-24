@@ -15,7 +15,8 @@ class Login(QWidget):
     def initUI(self, parent):
         self.le_id = QLineEdit(self)
         self.le_pw = QLineEdit(self)
-
+        self.le_pw.setEchoMode(QLineEdit.Password)
+        
         self.btn_login = QPushButton("로그인", self)
         self.btn_register = QPushButton("회원가입", self)
         self.btn_findpw = QPushButton("ID/PW찾기", self)
