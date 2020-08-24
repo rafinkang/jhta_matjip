@@ -25,8 +25,8 @@ class FindId(QWidget):
         self.btn_find.clicked.connect(self.find)
         self.btn_back.clicked.connect(lambda: parent.route_page('login'))
 
-        self.btn_find.setStyleSheet("background-color: #774739; color: #FFDE8D;")
-        self.btn_back.setStyleSheet("background-color: #26B798; color: #4C3628;")
+        self.btn_find.setStyleSheet("background-color: #774739; color: #FFDE8D; border-radius: 10px;")
+        self.btn_back.setStyleSheet("background-color: #26B798; color: #4C3628; border-radius: 10px;")
 
         self.le_name.setGeometry(350, 170, 100, 25)
         self.le_birth.setGeometry(350, 235, 100, 25)
