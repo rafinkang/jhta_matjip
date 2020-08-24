@@ -52,10 +52,10 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'party_detail':
             self.setCentralWidget(PartyDetail(self, params))
         elif page_name == 'restaurant':
-            self.setBackgroundColor('#ffffff')
+            self.setBackgroundColor('#84E2FF')
             self.setCentralWidget(Restaurant(self))
         elif page_name == 'restaurant_reple':
-            self.setBackgroundColor('#ffffff')
+            self.setBackgroundColor('#84E2FF')
             self.setCentralWidget(Restaurant_reple(self, params))
         elif page_name == 'mart':
             Mart(self)

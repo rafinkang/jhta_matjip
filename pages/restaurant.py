@@ -29,18 +29,33 @@ class Restaurant(QWidget):
         self.btn_random_restaurant = QPushButton("", self)
         self.btn_back = QPushButton("", self)
         
-        icon_back  = QIcon('E:\dev/jhta_matjip/images/back.jpg')
+        icon_back  = QIcon('images/back.png')
         self.btn_back.setIcon(icon_back)
         self.btn_back.resize(50, 50)
         self.btn_back.setIconSize(QSize(50, 50))
+        self.btn_back.setStyleSheet('background-color: transparent')
 
-        icon_random_restaurant  = QIcon('E:\dev/jhta_matjip/images/random.jpg')
+        icon_random_restaurant  = QIcon('images/random.png')
         self.btn_random_restaurant.setIcon(icon_random_restaurant)
         self.btn_random_restaurant.resize(50, 50)
         self.btn_random_restaurant.setIconSize(QSize(50, 50))
+        self.btn_random_restaurant.setStyleSheet('background-color: transparent')
 
         hbox = QHBoxLayout()
         hbox.addStretch()
+
+        pixmap_ori = QPixmap('images/ori.png')
+        pixmap_ori = pixmap_ori.scaledToWidth(50)
+        pixmap_ori = pixmap_ori.scaledToHeight(50)
+        label_ori = QLabel()
+        label_ori.setPixmap(pixmap_ori)
+        
+        # label_size = QLabel(Width: 50, Height: 50)
+        # lbl_size.setAlignment(Qt.AlignCenter)
+
+        hbox.addWidget(label_ori)
+        
+
         hbox.addWidget(self.btn_back)
         self.layout.addLayout(hbox,0,1)
 
@@ -126,12 +141,12 @@ class Restaurant(QWidget):
         
 
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers) # edit 금지 모드 
-        self.table.setColumnWidth(2, 100) #컬럼 사이즈 설정
+        self.table.setColumnWidth(2, 70) #컬럼 사이즈 설정
         self.table.setColumnWidth(3, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(4, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(5, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(6, 50) #컬럼 사이즈 설정
-        self.table.setColumnWidth(7, 100) #컬럼 사이즈 설정
+        self.table.setColumnWidth(7, 50) #컬럼 사이즈 설정
         self.table.setColumnWidth(8, 150) #컬럼 사이즈 설정
         self.table.setColumnWidth(9, 60) #컬럼 사이즈 설정
         
