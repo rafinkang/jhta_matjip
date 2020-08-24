@@ -13,9 +13,6 @@ class Login(QWidget):
         self.initUI(parent)
         
     def initUI(self, parent):
-        self.lb_id = QLabel("ID", self)
-        self.lb_pw = QLabel("PW", self)
-        
         self.le_id = QLineEdit(self)
         self.le_pw = QLineEdit(self)
 
@@ -27,16 +24,12 @@ class Login(QWidget):
         self.btn_findpw.clicked.connect(lambda: parent.route_page('find_id'))
         self.btn_register.clicked.connect(lambda: parent.route_page('register'))
 
-        grid = QGridLayout()
-        self.setLayout(grid)
 
-        grid.addWidget(self.lb_id, 0, 0)
-        grid.addWidget(self.le_id, 0, 1)
-        grid.addWidget(self.lb_pw, 1, 0)
-        grid.addWidget(self.le_pw, 1, 1)
-        grid.addWidget(self.btn_login, 2, 0, 1, 2)
-        grid.addWidget(self.btn_findpw, 3, 0, 1, 2)
-        grid.addWidget(self.btn_register, 4, 0, 1, 2)
+        self.le_id.setGeometry(600,205,150,30)
+        self.le_pw.setGeometry(600,275,150,30)
+        self.btn_login.setGeometry(600,465,150,30)
+        self.btn_register.setGeometry(600,505,150,30)
+        self.btn_findpw.setGeometry(600,545,150,30)
         
     def keyPressEvent(self, e):
         key = e.key()
