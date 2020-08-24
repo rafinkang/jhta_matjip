@@ -18,7 +18,9 @@ class PartyInsert(QWidget):
         self.lb_end_time = QLabel("종료시간", self)
 
         self.le_title = QLineEdit(self)
-        self.le_max_member = QLineEdit(self)
+        # self.le_max_member = QLineEdit(self)
+        self.le_max_member = QSpinBox(self)
+        self.le_max_member.setRange(2,20)
         # self.le_end_time = QLineEdit(self)
         self.le_end_time = QDateTimeEdit(self)
         self.le_end_time.setMinimumDateTime(datetime.datetime.now())
@@ -46,7 +48,8 @@ class PartyInsert(QWidget):
     
     def new_party(self):
         title = self.le_title.text()
-        max_member = self.le_max_member.text()
+        # max_member = self.le_max_member.text()
+        max_member = self.le_max_member.value()
         end_time = self.le_end_time.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         user_id = self.parent.user_id
         user_name = self.parent.user_name
