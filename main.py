@@ -39,6 +39,7 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'register':
             self.setCentralWidget(Register(self))
         elif page_name == 'find_id':
+            self.setBackgroundImage('images/find_id.jpg')
             self.setCentralWidget(FindId(self))
         elif page_name == 'party':
             self.setCentralWidget(Party(self))
