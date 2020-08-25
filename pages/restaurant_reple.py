@@ -150,7 +150,7 @@ class Restaurant_reple(QWidget):
             self.combobox_score.addItem(str(5-i*0.5)+"점")
                 
         self.btn_back = QPushButton("", self)
-        icon_back  = QIcon('images/back.png')
+        icon_back  = QIcon('./images/back.png')
         self.btn_back.setIcon(icon_back)
         self.btn_back.resize(50, 50)
         self.btn_back.setIconSize(QSize(50, 50))

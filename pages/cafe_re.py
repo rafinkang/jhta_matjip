@@ -43,7 +43,7 @@ class CafeRe(QWidget):
         # self.btn_back = QPushButton("뒤로가기", self)
 
         self.btn_back = QPushButton("", self)
-        icon_back = QIcon('images/back.jpg')
+        icon_back = QIcon('./images/back.jpg')
         self.btn_back.setIcon(icon_back)     
         self.btn_back.resize(133,133)
         self.btn_back.setIconSize(QSize(70,70))
