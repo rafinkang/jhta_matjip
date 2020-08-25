@@ -29,13 +29,13 @@ class Restaurant(QWidget):
         self.btn_random_restaurant = QPushButton("", self)
         self.btn_back = QPushButton("", self)
         
-        icon_back  = QIcon('images/back.png')
+        icon_back  = QIcon('./images/back.png')
         self.btn_back.setIcon(icon_back)
         self.btn_back.resize(50, 50)
         self.btn_back.setIconSize(QSize(50, 50))
         self.btn_back.setStyleSheet('background-color: transparent')
 
-        icon_random_restaurant  = QIcon('images/random.png')
+        icon_random_restaurant  = QIcon('./images/random.png')
         self.btn_random_restaurant.setIcon(icon_random_restaurant)
         self.btn_random_restaurant.resize(50, 50)
         self.btn_random_restaurant.setIconSize(QSize(50, 50))
@@ -44,7 +44,7 @@ class Restaurant(QWidget):
         hbox = QHBoxLayout()
         hbox.addStretch()
 
-        pixmap_ori = QPixmap('images/ori.png')
+        pixmap_ori = QPixmap('./images/ori.png')
         pixmap_ori = pixmap_ori.scaledToWidth(50)
         pixmap_ori = pixmap_ori.scaledToHeight(50)
         label_ori = QLabel()
