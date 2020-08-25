@@ -57,6 +57,7 @@ class PartyDetail(QWidget):
         
         self.btn_back.clicked.connect(lambda: parent.route_page('party'))
         self.btn_reple.clicked.connect(self.set_reple)
+        self.btn_refresh.clicked.connect(lambda: self.parent.route_page('party_detail', self.p_idx))
         
     def keyPressEvent(self, e):
         key = e.key()
