@@ -157,15 +157,50 @@ class CafeRe(QWidget):
                 sysdate
             )
             '''
-            rep_time = time.ctime()
+            # rep_time = time.ctime()
             db = DbConn()
             db.execute(sql,
                 {'r_idx':self.idx,
                 'user_id':self.parent.user_id,
                 'reple':text,
                 'score':score,})
-        self.parent.route_page('cafe_re', self.idx)
+            self.refresh_user_score()
+            self.parent.route_page('cafe_re', self.idx)
 
+
+    def refresh_user_score(self):
+        sql_select_score = """
+            SELECT 
+                score
+            FROM
+                restaurant_reple
+            WHERE
+                r_idx = :r_idx
+            """
+        
+        db = DbConn()
+        self.score_list = db.execute(sql_select_score,
+                            {'r_idx': self.idx})
+        self.review_num = len(self.score_list)
+        total_score = 0
+        for score in self.score_list:
+            total_score += score[0]
+        avg_score = round(total_score/self.review_num, 2)
+        # print(avg_score)
+
+    # db에 입력하기
+        sql_update_score = """
+        UPDATE restaurant SET
+            score = :score,
+            review = :review
+        WHERE r_idx = :r_idx
+        """
+
+        db = DbConn()
+        self.score_list = db.execute(sql_update_score,
+                            {'score': avg_score,
+                             'review': self.review_num,
+                             'r_idx': self.idx})    
 
 class CafeWebView(QMainWindow):
     def __init__(self, parent, url):
