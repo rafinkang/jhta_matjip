@@ -53,6 +53,7 @@ class Cafe(QWidget):
         select r_idx, r_name, main_menu, price, site_score, site_review, distance, review 
         from restaurant
         where r_category like '카페%'
+        order by site_score desc, site_review desc
         '''
         rows = db.execute(sql)
         # print(rows)

@@ -102,7 +102,7 @@ class Restaurant(QWidget):
             R_IDX
         FROM restaurant
         WHERE R_CATEGORY not like '%카페%'
-        ORDER BY r_idx ASC
+        ORDER BY score DESC, review DESC, site_score DESC
         """
 
         db = DbConn()
