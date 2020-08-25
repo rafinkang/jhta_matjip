@@ -30,19 +30,34 @@ class CafeRe(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.img_lb = QLabel()
-        url = self.data[2]
-        self.img = urllib.request.urlopen(url).read()
-        self.pixmap = QPixmap()
-        self.pixmap.loadFromData(self.img)
-        self.img_lb.setPixmap(self.pixmap)
+        if self.data[2] != '없음':
+            url = self.data[2]
+            self.img = urllib.request.urlopen(url).read()   
+            self.pixmap = QPixmap()
+            self.pixmap.loadFromData(self.img)
+            self.img_lb.setPixmap(self.pixmap)
+        else :
+            pass
         self.layout.addWidget(self.img_lb, 0, 0)
 
-        self.btn_back = QPushButton("뒤로가기", self)
+        # self.btn_back = QPushButton("뒤로가기", self)
+
+        self.btn_back = QPushButton("", self)
+        icon_back = QIcon('images/back.jpg')
+        self.btn_back.setIcon(icon_back)     
+        self.btn_back.resize(133,133)
+        self.btn_back.setIconSize(QSize(70,70))
+        self.btn_back.setStyleSheet('background-color: transparent')
         self.layout.addWidget(self.btn_back, 0, 2)
         self.btn_back.clicked.connect(lambda: parent.route_page('cafe'))
 
         self.rnlb = QLabel(self.data[0], self)       # 리스트 0번째 튜플의 0번째 것
-        self.btn_site = QPushButton("사이트 바로 가기", self)
+        self.btn_site = QPushButton("사이트 보기", self)
+        self.btn_site.setStyleSheet('background-color: #FFD93A;'
+                                    'padding: 10px;'
+                                    'font: bold 11px;'
+                                    'border: 2px solid orange;'
+                                    'border-radius: 10px;')
         self.layout.addWidget(self.rnlb, 1, 0, 1, 2)
         self.layout.addWidget(self.btn_site, 1, 2)
         # print(self.data[1])
@@ -53,6 +68,11 @@ class CafeRe(QWidget):
             self.combo.addItem(str(5-i*0.5)+'점')
         self.ed_reple = QLineEdit()
         self.btn_reple = QPushButton('댓글 달기', self)
+        self.btn_reple.setStyleSheet('background-color: #FFD93A;'
+                                    'padding: 10px;'
+                                    'font: bold 11px;'
+                                    'border: 2px solid orange;'
+                                    'border-radius: 10px;')
         self.layout.addWidget(self.combo, 2, 0)
         self.layout.addWidget(self.ed_reple, 2, 1)
         self.layout.addWidget(self.btn_reple, 2, 2)
@@ -98,6 +118,12 @@ class CafeRe(QWidget):
         for i in range(len(row)):
             for j in range(len(row[i])):
                 self.table.setItem(i,j, QTableWidgetItem(str(row[i][j])))
+                
+        self.table.setColumnWidth(0, 70) #컬럼 사이즈 설정        
+        self.table.setColumnWidth(2, 300) #컬럼 사이즈 설정        
+        self.table.setColumnWidth(3, 70) #컬럼 사이즈 설정        
+        self.table.setColumnWidth(4, 150) #컬럼 사이즈 설정        
+        self.table.setColumnWidth(5, 70) #컬럼 사이즈 설정        
 
         self.layout.addWidget(self.table, 3, 0, 1, 3)
 

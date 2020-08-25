@@ -68,7 +68,7 @@ class JhtaMatjip(QMainWindow):
         elif page_name == 'restaurant_webview':
             self.setCentralWidget(Restaurant_webview(self, params))
         elif page_name == 'cafe':
-            self.setBackgroundColor('#ffffff')
+            self.setBackgroundColor('pink')
             self.setCentralWidget(Cafe(self))
         elif page_name == 'cafe_re':
             self.setBackgroundColor('#ffffff')
@@ -101,5 +101,5 @@ if __name__ == "__main__":
     main = JhtaMatjip()
     
     # 첫 화면 실행
-    main.route_page('cafe')
+    main.route_page('login')
     sys.exit(app.exec_())
