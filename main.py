@@ -60,6 +60,7 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundColor('#84E2FF')
             self.setCentralWidget(Restaurant_reple(self, params))
         elif page_name == 'mart':
+            self.setBackgroundImage('images/martmain.png')
             Mart(self)
         elif page_name == 'mart_basket':
             self.setCentralWidget(MartRe(self, params))

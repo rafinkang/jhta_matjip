@@ -26,8 +26,8 @@ class Mart(object):
         self.one_page = 1
         self.two_page = 1
         self.sale_page = 1
-
         self.setupUi(parent)
+
 
 # def menu_data(self):
 # connection = cx_Oracle.connect("scott", "tigertiger", "orcl.czq0cxsnbcns.ap-northeast-2.rds.amazonaws.com:1521/orcl")
@@ -79,7 +79,7 @@ class Mart(object):
         
         Mart.setObjectName("Mart")
         Mart.resize(800, 600)
-        
+
         self.centralwidget = QtWidgets.QWidget(Mart)
         self.centralwidget.setObjectName("centralwidget")
         
@@ -92,6 +92,7 @@ class Mart(object):
         self.bt1.setCheckable(True)
         self.bt1.setChecked(False)
         self.bt1.setObjectName("bt1")
+        self.bt1.setStyleSheet('background-color: transparent')
         
         self.bt2 = QtWidgets.QPushButton(self.centralwidget)
         self.bt2.setGeometry(QtCore.QRect(20, 230, 150, 70))
@@ -102,6 +103,7 @@ class Mart(object):
         self.bt2.setCheckable(True)
         self.bt2.setChecked(False)
         self.bt2.setObjectName("bt2")
+        self.bt2.setStyleSheet('background-color: transparent')
        
         self.bt3 = QtWidgets.QPushButton(self.centralwidget)
         self.bt3.setGeometry(QtCore.QRect(20, 340, 150, 70))
@@ -112,6 +114,7 @@ class Mart(object):
         self.bt3.setCheckable(True)
         self.bt3.setChecked(False)
         self.bt3.setObjectName("bt3")
+        self.bt3.setStyleSheet('background-color: transparent')
         
         self.bt4 = QtWidgets.QPushButton(self.centralwidget)
         self.bt4.setGeometry(QtCore.QRect(20, 450, 150, 70))
@@ -122,15 +125,17 @@ class Mart(object):
         self.bt4.setCheckable(True)
         self.bt4.setChecked(False)
         self.bt4.setObjectName("bt4")
+        self.bt4.setStyleSheet('background-color: transparent')
         
-
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(690, 80, 91, 23))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.setStyleSheet('background-color: transparent')
         
         self.pushButtonBack = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButtonBack.setGeometry(QtCore.QRect(590, 80, 91, 23))
+        self.pushButtonBack.setGeometry(QtCore.QRect(640, 80, 91, 23))
         self.pushButtonBack.setObjectName("pushButtonBack")
+        self.pushButtonBack.setStyleSheet('background-color: transparent')
         
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setGeometry(QtCore.QRect(180, 110, 601, 421))
@@ -918,13 +923,13 @@ class Mart(object):
         self.sale_data = self.sale_data()
 
         self._translate = QtCore.QCoreApplication.translate
-        Mart.setWindowTitle(self._translate("Mart", "MainWindow"))
+        Mart.setWindowTitle(self._translate("Mart", "E*MART24"))
         self.bt1.setText(self._translate("Mart", "MAIN"))
         self.bt2.setText(self._translate("Mart", "1+1 상품 리스트"))
         self.bt3.setText(self._translate("Mart", "2+1 상품 리스트"))
         self.bt4.setText(self._translate("Mart", "세일 상품 리스트"))
-        self.pushButton.setText(self._translate("Mart", "페이지 넘기기"))
-        self.pushButtonBack.setText(self._translate("Mart", "페이지 넘기기"))
+        self.pushButton.setText(self._translate("Mart", "▶"))
+        self.pushButtonBack.setText(self._translate("Mart", "◀"))
 
         self.set_one_plus_one(1)
         self.set_two_plus_one(1)
