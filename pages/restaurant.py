@@ -55,7 +55,6 @@ class Restaurant(QWidget):
 
         hbox.addWidget(label_ori)
         
-
         hbox.addWidget(self.btn_back)
         self.layout.addLayout(hbox,0,1)
 

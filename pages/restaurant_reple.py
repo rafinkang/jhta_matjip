@@ -75,6 +75,9 @@ class Restaurant_reple(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
+        self.grid_layout = QGridLayout()
+        self.layout.addLayout(self.grid_layout, 0,0)
+
         self.label_restaurant_name1 = QLabel("식당이름",self)
         self.label_restaurant_category1 = QLabel("카테고리",self)
         self.label_restaurant_price1 = QLabel("가격",self)
@@ -95,55 +98,65 @@ class Restaurant_reple(QWidget):
         self.label_restaurant_nreview2 = QLabel(str(self.db_result_restaurant[0][7]),self)
         self.label_restaurant_menu2 = QLabel(self.db_result_restaurant[0][8],self)
 
-        self.layout.addWidget(self.label_restaurant_name1, 0, 0)
-        self.layout.addWidget(self.label_restaurant_category1, 0, 1)
-        self.layout.addWidget(self.label_restaurant_price1, 0, 2)
-        self.layout.addWidget(self.label_restaurant_distance1, 0, 3)
-        self.layout.addWidget(self.label_restaurant_score1, 0, 4)
-        self.layout.addWidget(self.label_restaurant_nscore1, 0, 5)
-        self.layout.addWidget(self.label_restaurant_review1, 0, 6)
-        self.layout.addWidget(self.label_restaurant_nreview1, 0, 7)
-        self.layout.addWidget(self.label_restaurant_menu1, 0, 8)
+        self.grid_layout.addWidget(self.label_restaurant_name1, 0, 1)
+        self.grid_layout.addWidget(self.label_restaurant_category1, 1, 1)
+        self.grid_layout.addWidget(self.label_restaurant_price1, 2, 1)
+        self.grid_layout.addWidget(self.label_restaurant_menu1, 3, 1)
+        self.grid_layout.addWidget(self.label_restaurant_name2, 0, 2)
+        self.grid_layout.addWidget(self.label_restaurant_category2, 1, 2)
+        self.grid_layout.addWidget(self.label_restaurant_price2, 2, 2)
+        self.grid_layout.addWidget(self.label_restaurant_menu2, 3, 2, 1,3)
 
-        self.layout.addWidget(self.label_restaurant_name2, 1, 0)
-        self.layout.addWidget(self.label_restaurant_category2, 1, 1)
-        self.layout.addWidget(self.label_restaurant_price2, 1, 2)
-        self.layout.addWidget(self.label_restaurant_distance2, 1, 3)
-        self.layout.addWidget(self.label_restaurant_score2, 1, 4)
-        self.layout.addWidget(self.label_restaurant_nscore2, 1, 5)
-        self.layout.addWidget(self.label_restaurant_review2, 1, 6)
-        self.layout.addWidget(self.label_restaurant_nreview2, 1, 7)
-        self.layout.addWidget(self.label_restaurant_menu2, 1, 8)
+        self.grid_layout.addWidget(self.label_restaurant_score1, 0, 3)
+        self.grid_layout.addWidget(self.label_restaurant_review1, 1, 3)
+        self.grid_layout.addWidget(self.label_restaurant_distance1, 2, 3)
+        self.grid_layout.addWidget(self.label_restaurant_score2, 0, 4)
+        self.grid_layout.addWidget(self.label_restaurant_review2, 1, 4)
+        self.grid_layout.addWidget(self.label_restaurant_distance2, 2, 4)
+
+        self.grid_layout.addWidget(self.label_restaurant_nscore1, 0, 5)
+        self.grid_layout.addWidget(self.label_restaurant_nreview1, 1, 5)
+        self.grid_layout.addWidget(self.label_restaurant_nscore2, 0, 6)
+        self.grid_layout.addWidget(self.label_restaurant_nreview2, 1, 6)
         
-        self.combobox_score = QComboBox()
         self.lineedit_reple = QLineEdit()
+        self.grid_layout.addWidget(self.lineedit_reple, 2, 5, 1, 4)
 
-        self.layout.addWidget(self.combobox_score, 2, 0, 1, 1)
-        self.layout.addWidget(self.lineedit_reple, 2, 1, 1, 8)
+        self.btn_webview = QPushButton("사이트가기", self)
+        self.btn_webview.setStyleSheet("margin: 5px 0; padding: 4px 0;")
+        self.combobox_score = QComboBox()
+        self.btn_newreple = QPushButton("댓글달기", self)
+        self.grid_layout.addWidget(self.btn_webview, 3, 5, 1, 1)
+        self.grid_layout.addWidget(self.combobox_score, 3, 6, 1, 1)
+        self.grid_layout.addWidget(self.btn_newreple, 3, 7, 1, 1)
+        
+
 
         # 위젯 만들어 넣기 그림
         self.widget_img = Image_webview(self,self.params)
-        self.hbox = QHBoxLayout()
-        self.layout.addLayout(self.hbox, 3, 0, 1, 10)
-        self.hbox.addWidget(self.widget_img)
+        self.grid_layout.addWidget(self.widget_img, 0, 0, 4, 1)
+        # self.hbox = QHBoxLayout()
+        # self.layout.addLayout(self.hbox, 3, 0, 1, 10)
+        # self.hbox.addWidget(self.widget_img)
         
         # self.widget_img2 = Image_webview(self,self.params)
         # self.hbox.addWidget(self.widget_img2)
         #이미지 여러개 넣으면됨
 
-        self.hbox.addStretch(1)
+        # self.hbox.addStretch(1)
         
 
         for i in range(11):
             self.combobox_score.addItem(str(5-i*0.5)+"점")
                 
-        self.btn_back = QPushButton("뒤로가기", self)
-        self.btn_webview = QPushButton("사이트가기", self)
-        self.btn_newreple = QPushButton("댓글달기", self)
+        self.btn_back = QPushButton("", self)
+        icon_back  = QIcon('images/back.png')
+        self.btn_back.setIcon(icon_back)
+        self.btn_back.resize(50, 50)
+        self.btn_back.setIconSize(QSize(50, 50))
+        self.btn_back.setStyleSheet('background-color: transparent')
+        self.grid_layout.addWidget(self.btn_back, 0, 8, 2, 1)
         
-        self.layout.addWidget(self.btn_back, 0, 9, 1, 1)
-        self.layout.addWidget(self.btn_webview, 1, 9, 1, 1)
-        self.layout.addWidget(self.btn_newreple, 2, 9, 1, 1)
         self.create_table()
         
         self.btn_back.clicked.connect(lambda: parent.route_page('restaurant'))
@@ -239,7 +252,7 @@ class Restaurant_reple(QWidget):
         
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
         self.table.setColumnCount(4) 
-        self.table.setRowCount(10) 
+        self.table.setRowCount(14) 
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["날짜", "아이디", "평점", "먹은음식 및 평가"]) 
         
@@ -259,7 +272,7 @@ class Restaurant_reple(QWidget):
         self.table.setColumnWidth(3, 450) #컬럼 사이즈 설정
         
 
-        self.layout.addWidget(self.table, 4, 0, 1,10)
+        self.layout.addWidget(self.table, 1, 0)
 
 
     def newwindow(self):
