@@ -25,7 +25,7 @@ class Register(QWidget):
         self.le_name = QLineEdit(self)
         self.le_name.setGeometry(250,262,170,30)
         self.le_birth = QDateEdit(self)
-        self.le_birth.setMinimumDateTime(datetime.datetime.now())
+        self.le_birth.setMaximumDate(datetime.datetime.now())
         self.le_birth.setGeometry(250,304,170,30)
         self.le_tel = QLineEdit(self)
         self.le_tel.setGeometry(250,345,170,30)
