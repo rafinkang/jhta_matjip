@@ -57,6 +57,7 @@ class PartyDetail(QWidget):
         
         self.btn_back.clicked.connect(lambda: parent.route_page('party'))
         self.btn_reple.clicked.connect(self.set_reple)
+        self.btn_refresh.clicked.connect(lambda: self.parent.route_page('party_detail', self.p_idx))
         
     def keyPressEvent(self, e):
         key = e.key()
@@ -78,11 +79,13 @@ class PartyDetail(QWidget):
         reple_datas = self.get_party_reple_data()
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
         self.table.setColumnCount(3) 
-        self.table.setRowCount(len(reple_datas)) 
+        default_low = 15
+        if len(reple_datas) > default_low : default_low = len(reple_datas)
+        self.table.setRowCount(default_low) 
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["작성시간", "댓글", "작성자"]) 
         self.table.setColumnWidth(0, 80) #컬럼 사이즈 설정
-        self.table.setColumnWidth(1, 570) #컬럼 사이즈 설정
+        self.table.setColumnWidth(1, 550) #컬럼 사이즈 설정
         self.table.setColumnWidth(2, 110) #컬럼 사이즈 설정
         
         row = 0

@@ -33,22 +33,22 @@ class JhtaMatjip(QMainWindow):
         
     def route_page(self, page_name, params = None):
         if page_name == 'login':
-            self.setBackgroundImage('images/login.jpg')
+            self.setBackgroundImage('./images/login.jpg')
             self.setCentralWidget(Login(self))
         elif page_name == 'menu':
-            self.setBackgroundImage('images/bg.png')
+            self.setBackgroundImage('./images/bg.png')
             self.setCentralWidget(Menu(self))
         elif page_name == 'register':
-            self.setBackgroundImage('images/register_type.jpg')
+            self.setBackgroundImage('./images/register_type.jpg')
             self.setCentralWidget(Register(self))
         elif page_name == 'find_id':
-            self.setBackgroundImage('images/find_id.jpg')
+            self.setBackgroundImage('./images/find_id.jpg')
             self.setCentralWidget(FindId(self))
         elif page_name == 'party':
             self.setBackgroundColor('#FEF2DC')
             self.setCentralWidget(Party(self))
         elif page_name == 'party_insert':
-            self.setBackgroundImage('images/party_insert.jpg')
+            self.setBackgroundImage('./images/party_insert.jpg')
             self.setCentralWidget(PartyInsert(self))
         elif page_name == 'party_detail':
             self.setBackgroundColor('#FEF2DC')
@@ -60,7 +60,7 @@ class JhtaMatjip(QMainWindow):
             self.setBackgroundColor('#84E2FF')
             self.setCentralWidget(Restaurant_reple(self, params))
         elif page_name == 'mart':
-            self.setBackgroundImage('images/martmain.png')
+            self.setBackgroundImage('./images/martmain.png')
             Mart(self)
         elif page_name == 'mart_basket':
             self.setCentralWidget(MartRe(self, params))

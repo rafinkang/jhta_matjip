@@ -38,3 +38,11 @@ local_var_name
 ```
 c=14136711.5110454,4519281.4097483,20,0,0,0,dh
 ```
+
+## build
+```
+pip install auto-py-to-exe
+
+pyinstaller --noconfirm --onefile --windowed --hidden-import "pkg_resources.py2_warn" --paths "E:/jhta_matjip/jhta_matjip"  "E:/jhta_matjip/jhta_matjip/main.py"
+cd out
+```

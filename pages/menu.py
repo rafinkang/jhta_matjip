@@ -16,7 +16,7 @@ class Menu(QWidget):
         self.btn4 = QPushButton("", self)
         self.btn5 = QPushButton("", self)
 
-        icon_matjip  = QIcon('images/restaurant.png')
+        icon_matjip  = QIcon('./images/restaurant.png')
         self.btn1.setIcon(icon_matjip)
         self.btn1.resize(175, 260)
         self.btn1.setIconSize(QSize(175, 260))
