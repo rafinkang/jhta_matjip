@@ -50,10 +50,10 @@ class Cafe(QWidget):
     def bringdata(self):
         db = DbConn()
         sql = '''
-        select r_idx, r_name, main_menu, price, score, site_score, review, site_review, distance, review 
+        select r_idx, r_name, main_menu, price, score, site_score, review, site_review, distance
         from restaurant
         where r_category like '카페%'
-        order by site_score desc, site_review desc
+        order by score DESC, site_score DESC, review DESC, site_review DESC
         '''
         rows = db.execute(sql)
         # print(rows)

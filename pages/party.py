@@ -40,8 +40,10 @@ class Party(QWidget):
         
         datas = self.select_data()
         # row, column 갯수 설정해야만 tablewidget 사용할수있다. 
-        self.table.setColumnCount(6) 
-        self.table.setRowCount(len(datas)) 
+        self.table.setColumnCount(6)
+        default_low = 16
+        if len(datas) > default_low : default_low = len(datas)
+        self.table.setRowCount(default_low)
         # column header 명 설정. 
         self.table.setHorizontalHeaderLabels(["제목", "생성자", "현재인원", "모집인원", "종료시간", "버튼"]) 
         
@@ -69,7 +71,7 @@ class Party(QWidget):
             self.table.setCellWidget(row, 5, party_btn) 
             
             self.table.setEditTriggers(QAbstractItemView.NoEditTriggers) # edit 금지 모드 
-            self.table.setColumnWidth(0, 310) #컬럼 사이즈 설정
+            self.table.setColumnWidth(0, 305) #컬럼 사이즈 설정
             self.table.setColumnWidth(2, 75) #컬럼 사이즈 설정
             self.table.setColumnWidth(3, 75) #컬럼 사이즈 설정
             
