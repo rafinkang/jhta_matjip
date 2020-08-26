@@ -19,14 +19,14 @@ class Cafe(QWidget):
         self.setLayout(self.layout)
 
         self.btn_random = QPushButton("", self)
-        icon_rd = QIcon('images/random.jpg')
+        icon_rd = QIcon('./images/random.jpg')
         self.btn_random.setIcon(icon_rd)     
         self.btn_random.resize(249,133)
         self.btn_random.setIconSize(QSize(249,133))
         self.btn_random.setStyleSheet('background-color: transparent')
 
         self.btn_back = QPushButton("", self)
-        icon_back = QIcon('images/back.jpg')
+        icon_back = QIcon('./images/back.jpg')
         self.btn_back.setIcon(icon_back)     
         self.btn_back.resize(133,133)
         self.btn_back.setIconSize(QSize(70,70))
