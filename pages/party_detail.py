@@ -150,7 +150,7 @@ class PartyDetail(QWidget):
             db.execute(query, {"member_list": member_list, "cur_member": cur_member, "p_idx":self.p_idx})
 
             self.alert_msg("파티에 참가하였습니다.")
-            self.parent.route_page("party")
+            self.parent.route_page("party_detail", self.p_idx)
         else:
             self.alert_msg("파티가 가득 찼습니다. 메롱~")
             
