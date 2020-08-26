@@ -143,7 +143,7 @@ class PartyDetail(QWidget):
         db = DbConn()
         query = "UPDATE matjip_party SET member_list = :member_list , cur_member = :cur_member WHERE p_idx = :p_idx"
         cur_member = self.cur_mem
-        if  cur_member <= self.max_mem:
+        if  cur_member < self.max_mem:
             self.mem_list.append(self.parent.user_name)
             member_list = ",".join(self.mem_list)
             cur_member += 1
